@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 const API_URL = '/api/shop'; // 백엔드 API 기본 주소
+let pending = {};
+let timer = null;
+
 
 export const createShopSlice = (set, get) => ({
     items: [],
@@ -78,19 +81,24 @@ export const createShopSlice = (set, get) => ({
 
 
     // 5. 아이템 재고 수량 업데이트
-    updateItemQuantity: async (id, quantity) => {
-        try {
-            // 서버가 URL에 변수를 원한다면 주소 뒤에 직접 붙입니다.
-            await axios.put(`${API_URL}/items/${id}/${quantity}`);
 
-            set((state) => ({
-                items: state.items.map((item) =>
-                    item.id === id ? { ...item, quantity } : item
-                ),
-            }));
-        } catch (error) {
-            alert("수량 업데이트에 실패했습니다.");
-        }
+    updateItemQuantity: (id, quantity) => {
+        set((state) => ({
+            items: state.items.map((item) =>
+                item.id === id ? { ...item, quantity } : item
+            ),
+        }));
+
+        pending[id] = quantity;
+
+        clearTimeout(timer);
+        timer = setTimeout(async () => {
+            const entries = Object.entries(pending);
+            pending = {};
+            for (const [id, qty] of entries) {
+                await axios.put(`${API_URL}/items/${id}/${qty}`);
+            }
+        }, 200);
     },
 
 
