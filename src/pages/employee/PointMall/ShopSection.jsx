@@ -28,7 +28,7 @@ const ShopSection = ( {refreshData} ) => {
         try {
             await addPurchaseHistory(
                 item.id,
-                2,
+                2,          // ------------------ 이 부분에 userId가 들어가야한다!!!!!!!!!!!!
                 user.name,
                 item.name,
                 item.price,

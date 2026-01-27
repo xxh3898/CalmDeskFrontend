@@ -29,7 +29,7 @@ const MissionSection = ({ missions, refreshData }) => {
             // 예: /api/employee/mission/complete
             await axios.post('/api/employee/mission/complete', {
                 missionId: missionId,
-                userId: 2 // 또는 전역 상태의 ID
+                userId: 2  // ------------------ 이 부분에 userId가 들어가야한다!!!!!!!!!!!!
             });
             
             alert('미션 보상이 지급되었습니다!');
