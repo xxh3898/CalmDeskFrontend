@@ -209,15 +209,24 @@ const MyPageMain = () => {
               ) : coupons.length === 0 ? (
                 <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>보유한 기프티콘이 없습니다.</div>
               ) : (
-                coupons.slice(0, 3).map((coupon) => (
-                  <S.SmallCouponCard key={coupon.orderId || coupon.gifticonId}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '3rem', height: '3rem', borderRadius: '1rem', backgroundColor: 'rgba(0,0,0,0.05)', fontSize: '1.5rem', marginBottom: '1rem' }}>
-                      🎁
-                    </div>
-                    <h4 style={{ fontSize: '0.875rem', fontWeight: 900, color: '#1e293b' }}>{coupon.gifticonName}</h4>
-                    <p style={{ fontSize: '10px', fontWeight: 700, color: '#94a3b8', marginTop: '0.25rem' }}>{coupon.shop || '기프티콘'}</p>
-                  </S.SmallCouponCard>
-                ))
+                coupons.slice(0, 3).map((coupon) => {
+                  const img = coupon.image;
+                  const isUrl = typeof img === 'string' && /^https?:\/\//i.test(img);
+                  const iconBoxStyle = { display: 'flex', alignItems: 'center', justifyContent: 'center', width: '3rem', height: '3rem', borderRadius: '1rem', backgroundColor: 'rgba(0,0,0,0.05)', fontSize: '1.5rem', marginBottom: '1rem', overflow: 'hidden' };
+                  return (
+                    <S.SmallCouponCard key={coupon.orderId || coupon.gifticonId}>
+                      <div style={iconBoxStyle}>
+                        {isUrl ? (
+                          <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <span style={{ fontSize: '1.5rem' }}>{img || '🎁'}</span>
+                        )}
+                      </div>
+                      <h4 style={{ fontSize: '0.875rem', fontWeight: 900, color: '#1e293b' }}>{coupon.gifticonName}</h4>
+                      <p style={{ fontSize: '10px', fontWeight: 700, color: '#94a3b8', marginTop: '0.25rem' }}>{coupon.shop || '기프티콘'}</p>
+                    </S.SmallCouponCard>
+                  );
+                })
               )}
             </S.SmallCouponGrid>
           </S.BentoCard>

@@ -85,7 +85,9 @@ function App() {
               ) : (
                 <Routes>
                   {/* 관리자 라우트 */}
-                  {isAdminMode && <></>}
+                  {isAdminMode && <>
+                    
+                  </>}
 
                   {/* 직원 라우트 */}
                   {!isAdminMode && (

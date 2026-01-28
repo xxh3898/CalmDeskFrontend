@@ -40,20 +40,4 @@ export const mypageApi = {
     });
     return response.data;
   },
-
-  // 알림 목록 조회
-  getNotifications: async (memberId) => {
-    const response = await apiClient.get('/mypage/notifications', {
-      params: { memberId },
-    });
-    return response.data;
-  },
-
-  // 알림 읽음 처리
-  markNotificationAsRead: async (memberId, notificationId) => {
-    const response = await apiClient.put(`/mypage/notifications/${notificationId}/read`, null, {
-      params: { memberId },
-    });
-    return response.data;
-  },
 };
