@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useStore from '../../../store/useStore';
 import StressGauge from '../../../components/StressGauge';
 import WeeklyChart from '../../../components/WeeklyChart';
+import apiClient from '../../../api/axios';
 import {
   Play,
   Coffee,
@@ -21,7 +22,6 @@ import {
   Pause
 } from 'lucide-react';
 
-import { NavItemType } from '../../../constants/types';
 import * as S from './Dashboard.styles';
 
 const Dashboard = () => {
@@ -36,6 +36,8 @@ const Dashboard = () => {
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedWeek, setSelectedWeek] = useState('thisWeek'); // 'thisWeek' | 'lastWeek'
+  const [dashboardData, setDashboardData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 모달 상태
   const [isEmotionModalOpen, setIsEmotionModalOpen] = useState(false);
@@ -58,28 +60,27 @@ const Dashboard = () => {
     '업무량 과다', '까다로운 고객', '시스템 장애', '동료 관계', '개인 사정', '컨디션 난조', '기타'
   ];
 
-  const weeklyData = {
-    thisWeek: [
-      { day: '월', value: 45 },
-      { day: '화', value: 52 },
-      { day: '수', value: 68 },
-      { day: '목', value: 55 },
-      { day: '금', value: 40 },
-      { day: '토', value: 25 },
-      { day: '일', value: 18 },
-    ],
-    lastWeek: [
-      { day: '월', value: 50 },
-      { day: '화', value: 48 },
-      { day: '수', value: 55 },
-      { day: '목', value: 60 },
-      { day: '금', value: 45 },
-      { day: '토', value: 30 },
-      { day: '일', value: 20 },
-    ]
-  };
-
   useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const response = await apiClient.get('/employee/dashboard');
+        setDashboardData(response.data);
+
+        // 백엔드 상태와 스토어 동기화
+        if (response.data.attendanceStats.currentStatus === '업무 중') {
+          setClockIn(true);
+        } else {
+          setClockIn(false);
+        }
+      } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
@@ -177,6 +178,14 @@ const Dashboard = () => {
     setAway(!isAway);
   };
 
+  if (isLoading) {
+    return <S.Container>Loading...</S.Container>;
+  }
+
+  if (!dashboardData) {
+    return <S.Container>데이터를 불러올 수 없습니다.</S.Container>;
+  }
+
   return (
     <S.Container>
       {/* Top Greeting & Quick Actions */}
@@ -186,7 +195,7 @@ const Dashboard = () => {
             <Smile className="w-8 h-8" />
           </S.UserAvatar>
           <S.GreetingText>
-            <h1>안녕하세요, 김철수 상담원님!</h1>
+            <h1>안녕하세요, {dashboardData.userProfile.name}님!</h1>
             <p>
               <Clock className="w-4 h-4" />
               {currentTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
@@ -198,7 +207,8 @@ const Dashboard = () => {
               }>
                 {isCoolDown ? "쿨다운" :
                   isAway ? "자리비움" :
-                    isClockedIn ? "업무 중" : "업무 준비 중"}
+                    isClockedIn ? "업무 중" :
+                      dashboardData.attendanceStats.currentStatus || "업무 준비 중"}
               </S.StatusBadge>
             </p>
           </S.GreetingText>
@@ -239,8 +249,8 @@ const Dashboard = () => {
             <span>스트레스 지수</span>
             <AlertCircle />
           </S.StatHeader>
-          <StressGauge percentage={38} />
-          <S.StatSubtext tag>매우 양호</S.StatSubtext>
+          <StressGauge percentage={dashboardData.stressStats.score} />
+          <S.StatSubtext tag>{dashboardData.stressStats.status}</S.StatSubtext>
         </S.StatCard>
 
         <S.StatCard>
@@ -251,13 +261,13 @@ const Dashboard = () => {
           <S.StatContent>
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: '1rem' }}>
               <div>
-                <S.StatValue>96%</S.StatValue>
-                <S.StatSubtext>지각/결근 없음</S.StatSubtext>
+                <S.StatValue>{dashboardData.attendanceStats.attendanceRate}%</S.StatValue>
+                <S.StatSubtext>{dashboardData.attendanceStats.statusMessage}</S.StatSubtext>
               </div>
               <div style={{ width: '4rem', height: '4rem', position: 'relative' }}>
                 <svg viewBox="0 0 36 36" style={{ width: '100%', height: '100%', transform: 'rotate(-90deg)' }}>
                   <path stroke="#f1f5f9" strokeWidth="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path stroke="#22c55e" strokeWidth="3" fill="none" strokeDasharray="96, 100" strokeLinecap="round" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path stroke="#22c55e" strokeWidth="3" fill="none" strokeDasharray={`${dashboardData.attendanceStats.attendanceRate}, 100`} strokeLinecap="round" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
               </div>
             </div>
@@ -270,11 +280,11 @@ const Dashboard = () => {
             <Info />
           </S.StatHeader>
           <S.StatContent>
-            <S.StatValue>12.5 <S.StatUnit>일</S.StatUnit></S.StatValue>
+            <S.StatValue>{dashboardData.vacationStats.remainingDays} <S.StatUnit>일</S.StatUnit></S.StatValue>
             <S.ProgressBar>
-              <S.ProgressFill width="60%" />
+              <S.ProgressFill width={`${(dashboardData.vacationStats.usedDays / dashboardData.vacationStats.totalDays) * 100}%`} />
             </S.ProgressBar>
-            <S.StatSubtext>사용 연차: 8.5일 / 총 21일</S.StatSubtext>
+            <S.StatSubtext>사용 연차: {dashboardData.vacationStats.usedDays}일 / 총 {dashboardData.vacationStats.totalDays}일</S.StatSubtext>
           </S.StatContent>
         </S.StatCard>
 
@@ -284,7 +294,7 @@ const Dashboard = () => {
               <span>포인트</span>
             </S.StatHeader>
             <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'flex-end', gap: '0.5rem' }}>
-              <S.StatValue light>2,450</S.StatValue>
+              <S.StatValue light>{dashboardData.pointStats.amount.toLocaleString()}</S.StatValue>
               <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.875rem', marginBottom: '0.25rem' }}>P</span>
             </div>
             <S.PointButton onClick={() => navigate('/app/pointmall')}>
@@ -318,7 +328,7 @@ const Dashboard = () => {
           </S.ChartToggle>
         </S.ChartHeader>
         <S.ChartWrapper>
-          <WeeklyChart data={weeklyData[selectedWeek]} />
+          <WeeklyChart data={dashboardData.weeklyStressChart[selectedWeek]} />
         </S.ChartWrapper>
       </S.ChartSection>
 
