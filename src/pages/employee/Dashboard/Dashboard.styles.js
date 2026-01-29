@@ -72,7 +72,7 @@ export const GreetingText = styled.div`
 export const StatusBadge = styled.span`
   font-weight: 600;
   color: ${props => {
-    switch (props.status) {
+    switch (props.$status) {
       case 'working': return '#16a34a'; // green-600
       case 'away': return '#f59e0b'; // amber-500
       case 'cooldown': return '#f97316'; // orange-500
@@ -106,7 +106,7 @@ export const ActionButton = styled.button`
   width: 100%;
 
   /* Default / Inactive Clock State */
-  ${props => props.variant === 'primary' && css`
+  ${props => props.$variant === 'primary' && css`
     background-color: #4f46e5; /* bg-indigo-600 */
     color: white;
     box-shadow: 0 10px 15px -3px rgba(199, 210, 254, 1); /* shadow-indigo-200 */
@@ -114,14 +114,14 @@ export const ActionButton = styled.button`
   `}
 
   /* Active Clock State */
-  ${props => props.variant === 'neutral' && css`
+  ${props => props.$variant === 'neutral' && css`
     background-color: #f1f5f9; /* bg-slate-100 */
     color: #475569; /* text-slate-600 */
     &:hover { background-color: #e2e8f0; }
   `}
 
   /* Active Away State */
-  ${props => props.variant === 'away' && css`
+  ${props => props.$variant === 'away' && css`
     background-color: #f59e0b; /* bg-amber-500 */
     color: white;
     box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.5); /* shadow-amber-300 */
@@ -129,7 +129,7 @@ export const ActionButton = styled.button`
   `}
 
   /* Active CoolDown State */
-  ${props => props.variant === 'orange' && css`
+  ${props => props.$variant === 'orange' && css`
     background-color: #f97316; /* bg-orange-500 */
     color: white;
     box-shadow: 0 10px 15px -3px rgba(254, 215, 170, 1); /* shadow-orange-200 */
@@ -147,7 +147,7 @@ export const ActionButton = styled.button`
 
 
   /* Danger / Clock Out State */
-  ${props => props.variant === 'danger' && css`
+  ${props => props.$variant === 'danger' && css`
     background-color: #ef4444; /* bg-red-500 */
     color: white;
     box-shadow: 0 10px 15px -3px rgba(254, 202, 202, 1); /* shadow-red-200 */
@@ -170,24 +170,24 @@ export const StatsGrid = styled.div`
 `;
 
 export const StatCard = styled.div`
-  background-color: ${props => props.variant === 'primary'
+  background-color: ${props => props.$variant === 'primary'
     ? '#4f46e5'
     : 'white'};
   padding: 1.5rem;
   border-radius: 1.5rem;
-  border: 1px solid ${props => props.variant === 'primary'
+  border: 1px solid ${props => props.$variant === 'primary'
     ? 'transparent'
     : '#f1f5f9'};
-  box-shadow: ${props => props.variant === 'primary'
+  box-shadow: ${props => props.$variant === 'primary'
     ? '0 10px 15px -3px rgba(224, 231, 255, 0.5)'
     : '0 1px 2px 0 rgba(0, 0, 0, 0.05)'};
-  color: ${props => props.variant === 'primary' ? 'white' : '#1e293b'};
+  color: ${props => props.$variant === 'primary' ? 'white' : '#1e293b'};
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
   
-  ${props => props.align === 'center' && css`
+  ${props => props.$align === 'center' && css`
     align-items: center;
   `}
 `;
@@ -197,10 +197,10 @@ export const StatHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${props => props.mb || '0.5rem'};
+  margin-bottom: ${props => props.$mb || '0.5rem'};
 
   span {
-    color: ${props => props.light ? '#e0e7ff' : '#64748b'}; /* text-indigo-100 or text-slate-500 */
+    color: ${props => props.$light ? '#e0e7ff' : '#64748b'}; /* text-indigo-100 or text-slate-500 */
     font-weight: 500;
     font-size: 0.875rem;
   }
@@ -208,7 +208,7 @@ export const StatHeader = styled.div`
   svg {
     width: 1rem;
     height: 1rem;
-    color: ${props => props.light ? 'rgba(255,255,255,0.5)' : '#cbd5e1'};
+    color: ${props => props.$light ? 'rgba(255,255,255,0.5)' : '#cbd5e1'};
   }
 `;
 
@@ -219,22 +219,22 @@ export const StatContent = styled.div`
 export const StatValue = styled.span`
   font-size: 1.875rem; /* 3xl */
   font-weight: 800;
-  color: ${props => props.light ? 'white' : '#1e293b'};
+  color: ${props => props.$light ? 'white' : '#1e293b'};
 `;
 
 export const StatUnit = styled.span`
   font-size: 1.125rem;
   font-weight: 500;
-  color: ${props => props.light ? 'rgba(255,255,255,0.8)' : '#94a3b8'};
+  color: ${props => props.$light ? 'rgba(255,255,255,0.8)' : '#94a3b8'};
   margin-left: 0.25rem;
 `;
 
 export const StatSubtext = styled.p`
   font-size: 0.75rem; /* xs */
-  color: ${props => props.light ? 'rgba(255,255,255,0.8)' : '#94a3b8'};
+  color: ${props => props.$light ? 'rgba(255,255,255,0.8)' : '#94a3b8'};
   margin-top: 0.5rem; /* mt-2 usually */
 
-  ${props => props.tag && css`
+  ${props => props.$tag && css`
     margin-top: 1rem;
     color: #4f46e5;
     background-color: #eef2ff;
@@ -257,7 +257,7 @@ export const ProgressBar = styled.div`
 export const ProgressFill = styled.div`
   background-color: #6366f1; /* bg-indigo-500 */
   height: 100%;
-  width: ${props => props.width || '0%'};
+  width: ${props => props.$width || '0%'};
   border-radius: 9999px;
 `;
 
@@ -328,7 +328,7 @@ export const ChartToggle = styled.div`
 `;
 
 export const ToggleButton = styled.button`
-  ${props => props.active ? css`
+  ${props => props.$active ? css`
     background-color: white;
     color: #4f46e5;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
@@ -341,6 +341,8 @@ export const ToggleButton = styled.button`
 export const ChartWrapper = styled.div`
   width: 100%;
   height: 300px;
+  min-width: 0;
+  overflow: hidden;
 `;
 
 /* Modal Styles */
@@ -376,7 +378,7 @@ export const ModalContent = styled.div`
 export const ModalHeader = styled.div`
   padding: 2rem;
   color: white;
-  background-color: ${props => props.type === 'IN' ? '#4f46e5' : '#1e293b'}; /* indigo-600 or slate-800 */
+  background-color: ${props => props.$type === 'IN' ? '#4f46e5' : '#1e293b'}; /* indigo-600 or slate-800 */
 `;
 
 export const ModalTitle = styled.h2`
@@ -457,7 +459,7 @@ export const MoodButton = styled.button`
   border: 2px solid transparent;
   transition: all 0.2s;
 
-  ${props => props.active ? css`
+  ${props => props.$active ? css`
     background-color: #eef2ff;
     border-color: #c7d2fe;
     transform: scale(1.05);
@@ -470,7 +472,7 @@ export const MoodButton = styled.button`
   span:last-child {
     font-size: 0.6875rem;
     font-weight: 700;
-    color: ${props => props.active ? '#4f46e5' : '#94a3b8'};
+    color: ${props => props.$active ? '#4f46e5' : '#94a3b8'};
   }
 `;
 
@@ -488,7 +490,7 @@ export const FactorButton = styled.button`
   border: 2px solid transparent;
   transition: all 0.2s;
 
-  ${props => props.active ? css`
+  ${props => props.$active ? css`
     background-color: #4f46e5;
     border-color: #4f46e5;
     color: white;
@@ -538,7 +540,7 @@ export const SubmitModalButton = styled.button`
     transform: scale(0.95);
   }
 
-  ${props => props.type === 'IN' ? css`
+  ${props => props.$type === 'IN' ? css`
     background-color: #4f46e5;
     &:hover { background-color: #4338ca; }
   ` : css`

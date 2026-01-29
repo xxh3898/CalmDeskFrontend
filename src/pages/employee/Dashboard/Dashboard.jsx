@@ -200,7 +200,7 @@ const Dashboard = () => {
               <Clock className="w-4 h-4" />
               {currentTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
               <span className="mx-1">•</span>
-              상태: <S.StatusBadge status={
+              상태: <S.StatusBadge $status={
                 isCoolDown ? 'cooldown' :
                   isAway ? 'away' :
                     isClockedIn ? 'working' : 'ready'
@@ -217,14 +217,14 @@ const Dashboard = () => {
         <S.ActionGroup>
           <S.ActionButton
             onClick={handleClockButtonClick}
-            variant={isClockedIn ? 'danger' : 'primary'}
+            $variant={isClockedIn ? 'danger' : 'primary'}
           >
             {isClockedIn ? "퇴근하기" : "출근하기"}
           </S.ActionButton>
 
           <S.ActionButton
             onClick={handleAway}
-            variant={isAway ? 'away' : 'neutral'}
+            $variant={isAway ? 'away' : 'neutral'}
             disabled={!isClockedIn || isCoolDown}
           >
             {isAway ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -234,7 +234,7 @@ const Dashboard = () => {
           <S.ActionButton
             onClick={handleCoolDown}
             disabled={!isClockedIn || isAway}
-            variant={isCoolDown ? 'orange' : 'neutral'}
+            $variant={isCoolDown ? 'orange' : 'neutral'}
           >
             <Coffee className="w-4 h-4" />
             <span>{isCoolDown ? `쿨다운 ${formatTime(timeLeft)}` : "쿨다운"}</span>
@@ -244,13 +244,13 @@ const Dashboard = () => {
 
       {/* Stats Grid */}
       <S.StatsGrid>
-        <S.StatCard align="center">
-          <S.StatHeader mb="1rem">
+        <S.StatCard $align="center">
+          <S.StatHeader $mb="1rem">
             <span>스트레스 지수</span>
             <AlertCircle />
           </S.StatHeader>
           <StressGauge percentage={dashboardData.stressStats.score} />
-          <S.StatSubtext tag>{dashboardData.stressStats.status}</S.StatSubtext>
+          <S.StatSubtext $tag>{dashboardData.stressStats.status}</S.StatSubtext>
         </S.StatCard>
 
         <S.StatCard>
@@ -282,19 +282,19 @@ const Dashboard = () => {
           <S.StatContent>
             <S.StatValue>{dashboardData.vacationStats.remainingDays} <S.StatUnit>일</S.StatUnit></S.StatValue>
             <S.ProgressBar>
-              <S.ProgressFill width={`${(dashboardData.vacationStats.usedDays / dashboardData.vacationStats.totalDays) * 100}%`} />
+              <S.ProgressFill $width={`${(dashboardData.vacationStats.usedDays / dashboardData.vacationStats.totalDays) * 100}%`} />
             </S.ProgressBar>
             <S.StatSubtext>사용 연차: {dashboardData.vacationStats.usedDays}일 / 총 {dashboardData.vacationStats.totalDays}일</S.StatSubtext>
           </S.StatContent>
         </S.StatCard>
 
-        <S.StatCard variant="primary">
+        <S.StatCard $variant="primary">
           <div style={{ position: 'relative', zIndex: 10 }}>
-            <S.StatHeader light>
+            <S.StatHeader $light>
               <span>포인트</span>
             </S.StatHeader>
             <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'flex-end', gap: '0.5rem' }}>
-              <S.StatValue light>{dashboardData.pointStats.amount.toLocaleString()}</S.StatValue>
+              <S.StatValue $light>{dashboardData.pointStats.amount.toLocaleString()}</S.StatValue>
               <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.875rem', marginBottom: '0.25rem' }}>P</span>
             </div>
             <S.PointButton onClick={() => navigate('/app/pointmall')}>
@@ -314,13 +314,13 @@ const Dashboard = () => {
           </div>
           <S.ChartToggle>
             <S.ToggleButton
-              active={selectedWeek === 'thisWeek'}
+              $active={selectedWeek === 'thisWeek'}
               onClick={() => setSelectedWeek('thisWeek')}
             >
               이번 주
             </S.ToggleButton>
             <S.ToggleButton
-              active={selectedWeek === 'lastWeek'}
+              $active={selectedWeek === 'lastWeek'}
               onClick={() => setSelectedWeek('lastWeek')}
             >
               지난 주
@@ -337,7 +337,7 @@ const Dashboard = () => {
         <S.ModalOverlay>
           <S.Backdrop onClick={() => setIsEmotionModalOpen(false)} />
           <S.ModalContent>
-            <S.ModalHeader type={modalType}>
+            <S.ModalHeader $type={modalType}>
               <S.CloseRow>
                 <S.IconBadge>
                   {modalType === 'IN' ? <SmilePlus size={24} /> : <Heart size={24} />}
@@ -364,7 +364,7 @@ const Dashboard = () => {
                     <S.MoodButton
                       key={emotion.id}
                       onClick={() => setSelectedEmotion(emotion.id)}
-                      active={selectedEmotion === emotion.id}
+                      $active={selectedEmotion === emotion.id}
                     >
                       <span>{emotion.emoji}</span>
                       <span>{emotion.label}</span>
@@ -384,7 +384,7 @@ const Dashboard = () => {
                     <S.FactorButton
                       key={factor}
                       onClick={() => toggleFactor(factor)}
-                      active={selectedFactors.includes(factor)}
+                      $active={selectedFactors.includes(factor)}
                     >
                       {factor}
                     </S.FactorButton>
@@ -407,7 +407,7 @@ const Dashboard = () => {
 
               <S.SubmitModalButton
                 onClick={handleModalSubmit}
-                type={modalType}
+                $type={modalType}
               >
                 <Send size={20} />
                 {modalType === 'IN' ? '출근 완료' : '퇴근 완료'}
