@@ -24,10 +24,12 @@ const AdminMyPageMain = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 관리자 memberId를 4로 설정 (data.sql 기준)
-  const adminMemberId = 4;
+  // 로그인한 유저의 memberId 사용
+  const adminMemberId = user?.memberId || user?.id;
 
   useEffect(() => {
+    if (!adminMemberId) return;
+    
     const fetchProfile = async () => {
       try {
         setLoading(true);

@@ -36,8 +36,11 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
-  const { user, isAdminMode } = useStore();
+  const { user } = useStore();
   const navigate = useNavigate();
+  
+  // 로그인한 유저의 role로 관리자 여부 판단
+  const isAdminMode = user?.role === 'ADMIN';
 
   const handleStart = () => navigate("/auth");
   const handleFeatureDetails = () => navigate("/features");
@@ -94,7 +97,7 @@ function App() {
                 />
               ) : (
                 <Routes>
-                  {/* 관리자 라우트 */}
+                  {/* 관리자 라우트 - role이 ADMIN인 경우만 */}
                   {isAdminMode && (
                     <>
                       <Route
@@ -105,13 +108,14 @@ function App() {
                         path="gifticons/history"
                         element={<PurchaseHistory />}
                       />
-                        <Route
-                            path="mypage/*"
-                            element={<AdminMyPage />} />
+                      <Route
+                        path="mypage/*"
+                        element={<AdminMyPage />}
+                      />
                     </>
                   )}
 
-                  {/* 직원 라우트 — Header 메뉴와 경로 일치 */}
+                  {/* 직원 라우트 — role이 EMPLOYEE인 경우 */}
                   {!isAdminMode && (
                     <>
                       <Route
