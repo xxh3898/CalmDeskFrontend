@@ -79,7 +79,6 @@ const Attendance = () => {
         }
       });
       const history = response.data || [];
-      console.log('Attendance History:', history);
       setAttendanceHistory(history);
     } catch (err) {
       console.error('Failed to fetch history:', err);
@@ -95,7 +94,6 @@ const Attendance = () => {
         }
       });
       const leaves = response.data || [];
-      console.log('Leave Requests:', leaves);
       setLeaveRequests(leaves);
     } catch (err) {
       console.error('Failed to fetch leaves:', err);
@@ -233,9 +231,6 @@ const Attendance = () => {
   };
 
   const leaveDaysMap = getLeaveDays();
-  console.log('Leave Days Map:', Array.from(leaveDaysMap.entries()));
-  console.log('Current month:', year, month + 1);
-  console.log('Attendance History for calendar:', attendanceHistory);
 
   const calendarDays = Array.from({ length: 42 }, (_, i) => {
     const day = i - startDayOffset + 1;
@@ -281,16 +276,10 @@ const Attendance = () => {
     const history = attendanceHistory.find(h => h.day === selectedDay);
 
     // 휴가 확인
-    let leaveType = null;
-    const leave = leaveRequests.find(l => {
-      const period = l.period || '';
-      const dateStr = `${year}.${String(month + 1).padStart(2, '0')}.${String(selectedDay).padStart(2, '0')}`;
-      return period.includes(dateStr);
-    });
-
-    if (leave) {
-      leaveType = leave.type;
-    }
+    // 백엔드 period 포맷이 "YYYY.MM.DD - MM.DD"라서 시작일만 연도가 있어
+    // 문자열 includes로는 기간 중간 날짜를 매칭 못함 → calendar에서 만든 leaveDaysMap으로 판별
+    const leaveInfo = leaveDaysMap.get(selectedDay);
+    const leaveType = leaveInfo?.type ?? null;
 
     const isLeave = !!leaveType;
     const isWorkcation = leaveType === '워케이션';
