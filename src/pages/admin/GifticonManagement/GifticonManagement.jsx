@@ -12,9 +12,11 @@ const AdminGifticonManagement = () => {
 
     useEffect(() => {
         fetchItems();
+         console.log(items);
     }, [fetchItems]);
 
-
+    
+    
     return (
         <S.Container>
             <S.PageHeader>
