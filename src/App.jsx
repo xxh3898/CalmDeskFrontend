@@ -82,7 +82,7 @@ function App() {
         element={
           <ProtectedRoute>
             <MainLayout>
-              {user?.joinStatus === "PENDING" ? (
+              {user?.joinStatus === "N" ? (
                 <StatusPlaceholder
                   icon={Clock}
                   title="승인 대기 중"
@@ -98,18 +98,36 @@ function App() {
                 <Routes>
                   {/* 관리자 라우트 */}
                   {isAdminMode && (
-                    <Route path="mypage/*" element={<AdminMyPage />} />
+                    <>
+                      <Route
+                        path="gifticons"
+                        element={<AdminGifticonManagement />}
+                      />
+                      <Route
+                        path="gifticons/history"
+                        element={<PurchaseHistory />}
+                      />
+                        <Route
+                            path="mypage/*"
+                            element={<AdminMyPage />} />
+                    </>
                   )}
 
                   {/* 직원 라우트 — Header 메뉴와 경로 일치 */}
                   {!isAdminMode && (
                     <>
-                      <Route path="dashboard" element={<Navigate to="/app/mypage" replace />} />
+                      <Route
+                        path="dashboard"
+                        element={<Navigate to="/app/mypage" replace />}
+                      />
                       <Route path="department" element={<Department />} />
                       <Route path="attendance" element={<Attendance />} />
                       <Route path="consultation" element={<Consultation />} />
+                      <Route
+                        path="*"
+                        element={<Navigate to="/app/dashboard" replace />}
+                      />
                       {/* <Route path="pointmall" element={<PointMall />} /> */}
-                      <Route path="mypage/*" element={<MyPage />} />
                     </>
                   )}
                 </Routes>
