@@ -27,11 +27,11 @@ const AdminGifticonManagement = () => {
                         <ShoppingBag size={18} />
                         구매 내역
                     </S.BulkButton>
-                    <S.BulkButton onClick={activateAll} variant="activate">
+                    <S.BulkButton onClick={activateAll} $variant="activate">
                         <CheckCircle2 size={18} />
                         전체 활성화
                     </S.BulkButton>
-                    <S.BulkButton onClick={deactivateAll} variant="deactivate">
+                    <S.BulkButton onClick={deactivateAll} $variant="deactivate">
                         <XCircle size={18} />
                         전체 비활성화
                     </S.BulkButton>

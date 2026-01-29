@@ -33,7 +33,7 @@ export const BannerSection = styled.section`
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   transition: all 0.5s;
   
-  ${props => props.tab === 'SHOP'
+  ${props => props.$tab === 'SHOP'
     ? 'background-color: #f59e0b; box-shadow: 0 20px 25px -5px rgba(254, 243, 199, 0.5);' /* amber-500 */
     : 'background-color: #4f46e5; box-shadow: 0 20px 25px -5px rgba(224, 231, 255, 0.5);' /* indigo-600 */
   }
@@ -367,7 +367,7 @@ export const StatusPill = styled.span`
   font-weight: 900;
   text-transform: uppercase;
   
-  ${props => props.status === '완료'
+  ${props => props.$status === '완료'
     ? 'background-color: #dcfce7; color: #16a34a;' /* green-100 green-600 */
     : 'background-color: #f1f5f9; color: #94a3b8;' /* slate-100 slate-400 */
   }
@@ -424,8 +424,8 @@ export const ProgressBarBg = styled.div`
 export const ProgressBarFill = styled.div`
   height: 100%;
   transition: width 1s ease-out;
-  width: ${props => props.$width}%;
-  background-color: ${props => props.$complete ? '#22c55e' : '#6366f1'}; /* green-500 : indigo-500 */
+  width: ${props => props.width}%;
+  background-color: ${props => props.complete ? '#22c55e' : '#6366f1'}; /* green-500 : indigo-500 */
 `;
 
 export const ActionBtn = styled.button`
@@ -435,42 +435,11 @@ export const ActionBtn = styled.button`
   font-size: 0.75rem;
   font-weight: 900;
   transition: all 0.2s;
-  border: none; /* 테두리 제거 */
-
-  ${props => {
-    // 1. 이미 보상을 획득한 경우 (완료)
-    if (props.$complete) {
-      return `
-        background-color: #f1f5f9; 
-        color: #94a3b8; 
-        cursor: not-allowed;
-      `;
-    }
-
-    // 2. 진행 중이라서 버튼이 비활성화된 경우 (disabled)
-    if (props.disabled) {
-      return `
-        background-color: #e7ebe4; 
-        color: #959c91; 
-        cursor: not-allowed;
-      `;
-    }
-
-    // 3. 100% 달성하여 보상을 받을 수 있는 경우 (활성)
-    return `
-      background-color: #4f46e5; 
-      color: white; 
-      box-shadow: 0 10px 15px -3px rgba(238, 242, 255, 1); 
-      cursor: pointer;
-      &:hover { 
-        background-color: #4338ca; 
-        transform: translateY(-1px);
-      }
-      &:active {
-        transform: translateY(0);
-      }
-    `;
-  }}
+  
+  ${props => props.complete
+    ? 'background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed;'
+    : 'background-color: #4f46e5; color: white; box-shadow: 0 10px 15px -3px rgba(238, 242, 255, 1); &:hover { background-color: #4338ca; }'
+  }
 `;
 
 const zoomIn = keyframes`
