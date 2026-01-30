@@ -126,10 +126,16 @@ const Dashboard = () => {
     }
 
     try {
+      const payload = {
+        stressLevel: selectedEmotion,
+        stressFactors: selectedFactors,
+        memo: memo
+      };
+
       if (modalType === 'IN') {
-        await apiClient.post('/employee/dashboard/status/clock-in');
+        await apiClient.post('/employee/dashboard/status/clock-in', payload);
       } else {
-        await apiClient.post('/employee/dashboard/status/clock-out');
+        await apiClient.post('/employee/dashboard/status/clock-out', payload);
       }
 
       // 데이터 갱신

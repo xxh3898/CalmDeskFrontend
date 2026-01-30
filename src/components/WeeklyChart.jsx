@@ -13,6 +13,9 @@ import * as S from './WeeklyChart.styles';
 
 
 const WeeklyChart = ({ data }) => {
+  if (!data || data.length === 0) {
+    return <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1' }}>데이터가 없습니다</div>;
+  }
   return (
     <S.ChartContainer>
       <ResponsiveContainer width="100%" height="100%">
