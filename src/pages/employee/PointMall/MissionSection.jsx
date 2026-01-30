@@ -1,7 +1,6 @@
 import React from 'react';  
 import { CheckCircle2, Zap, Heart, Star, Flame, Activity } from 'lucide-react';
 import * as S from './PointMall.styles';
-import axios from 'axios';
 import useStore from '../../../store/useStore';
 
 const ICON_MAP = {
@@ -14,27 +13,25 @@ const ICON_MAP = {
 };
 
 const MissionSection = ({ missions, refreshData }) => {
-    const { user } = useStore();
+    // 스토어에서 completeMission과 user 정보를 가져옵니다.
+    const { completeMission, user } = useStore();
 
     const handleMissionClick = async (missionId) => {
-        console.log("미션 완료 시도 데이터:", { 
-            missionId: missionId,
-            userId: user?.id
-        });
-        
+        if (!user?.id) {
+            alert("로그인 정보가 없습니다.");
+            return;
+        }
+
         try {
-            // userId: 2 대신 전역 상태의 user.id를 사용하도록 수정 권장
-            await axios.post('/api/employee/shop/mission/complete', {
-                missionId: missionId,
-                userId: 2
-            });
-            
+            // 스토어 액션 호출
+            await completeMission(missionId, user.id);
             
             alert('미션 보상이 지급되었습니다!');
-            refreshData(); 
+            
+            // 전체 데이터를 다시 불러와서 상단의 보유 포인트 등을 동기화
+            if (refreshData) refreshData(); 
+            
         } catch (error) {
-            console.error("미션 처리 중 오류:", error);
-            // 백엔드에서 보낸 에러 메시지가 있다면 출력
             const errorMsg = error.response?.data?.message || '보상을 받을 수 없습니다.';
             alert(errorMsg);
         }

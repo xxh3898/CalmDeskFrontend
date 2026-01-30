@@ -1,8 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
+
+const slideInBottom = keyframes`
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 export const Container = styled.div`
   padding: 2rem;
   color: #f8fafc;
+  animation: ${slideInBottom} 0.5s ease-out;
 `;
 
 export const PageHeader = styled.div`
