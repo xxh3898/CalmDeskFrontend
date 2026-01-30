@@ -7,7 +7,7 @@ import MainLayout from "./layouts/MainLayout/MainLayout";
 import AdminGifticonManagement from './pages/admin/GifticonManagement/GifticonManagement';
 import PurchaseHistory from './pages/admin/GifticonManagement/PurchaseHistory/PurchaseHistory';
 import AdminMyPage from './pages/admin/Mypage/MyPage';
-
+import AdminDashboard from "./pages/admin/Dashboard/Dashboard";
 
 // 공통 페이지 (Common Pages)
 import LandingPage from "./pages/common/Landing/Landing";
@@ -22,7 +22,8 @@ import MyPage from "./pages/employee/MyPage/MyPage";
 import Department from "./pages/employee/Department/Department";
 import Attendance from "./pages/employee/Attendance/Attendance";
 import Consultation from "./pages/employee/Consultation/Consultation";
-// import PointMall from "./pages/employee/PointMall/PointMall";
+import Dashboard from "./pages/employee/Dashboard/Dashboard";
+import PointMall from "./pages/employee/PointMall/PointMall";
 
 import { ShieldAlert, Clock } from "lucide-react";
 import * as S from "./App.styles";
@@ -38,7 +39,7 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   const { user } = useStore();
   const navigate = useNavigate();
-  
+
   // 로그인한 유저의 role로 관리자 여부 판단
   const isAdminMode = user?.role === 'ADMIN';
 
@@ -100,6 +101,7 @@ function App() {
                   {/* 관리자 라우트 - role이 ADMIN인 경우만 */}
                   {isAdminMode && (
                     <>
+                      <Route path="dashboard" element={<AdminDashboard />} />
                       <Route
                         path="gifticons"
                         element={<AdminGifticonManagement />}
@@ -126,11 +128,13 @@ function App() {
                       <Route path="department" element={<Department />} />
                       <Route path="attendance" element={<Attendance />} />
                       <Route path="consultation" element={<Consultation />} />
+                      {/* <Route path="pointmall" element={<PointMall />} /> */}
+                      <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="mypage/*" element={<MyPage />} />
                       <Route
                         path="*"
                         element={<Navigate to="/app/dashboard" replace />}
                       />
-                      {/* <Route path="pointmall" element={<PointMall />} /> */}
                     </>
                   )}
                 </Routes>

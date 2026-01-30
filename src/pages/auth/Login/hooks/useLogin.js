@@ -37,6 +37,8 @@ export const useLogin = (onLogin) => {
           companyCode: response.companyCode,
           companyName: response.companyName,
           departmentName: response.departmentName,
+          department: response.departmentName,
+          departmentId: response.departmentId,
           phone: response.phone,
           token: response.token,
           joinStatus: response.joinStatus,
