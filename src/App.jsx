@@ -8,6 +8,7 @@ import AdminGifticonManagement from './pages/admin/GifticonManagement/GifticonMa
 import PurchaseHistory from './pages/admin/GifticonManagement/PurchaseHistory/PurchaseHistory';
 import AdminMyPage from './pages/admin/Mypage/MyPage';
 import AdminDashboard from "./pages/admin/Dashboard/Dashboard";
+import AdminTeamManagement from "./pages/admin/TeamManagement/TeamManagement";
 
 // 공통 페이지 (Common Pages)
 import LandingPage from "./pages/common/Landing/Landing";
@@ -102,6 +103,10 @@ function App() {
                   {isAdminMode && (
                     <>
                       <Route path="dashboard" element={<AdminDashboard />} />
+                      <Route
+                        path="teammanagement"
+                        element={<AdminTeamManagement />}
+                      />
                       <Route
                         path="gifticons"
                         element={<AdminGifticonManagement />}
