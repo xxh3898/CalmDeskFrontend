@@ -1,48 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ShoppingBag, Trophy, Gift } from 'lucide-react';
-import axios from 'axios';
+import useStore from '../../../store/useStore'; // 스토어 경로에 맞춰 수정하세요
 import * as S from './PointMall.styles';
 import MissionSection from './MissionSection';
 import ShopSection from './ShopSection';
 
 const PointMall = () => {
-    const [pointMallTab, setPointMallTab] = useState('MISSIONS');
-    const [loading, setLoading] = useState(true);
-    // 백엔드 응답 데이터를 저장할 상태
-    const [mallData, setMallData] = useState({
-        currentPoint: 0,
-        missions: [],
-        shopItems: []
-    });
+    const [pointMallTab, setPointMallTab] = React.useState('MISSIONS');
+    
+      
+    // 스토어에서 필요한 상태와 액션 추출
+    const { mallData, loading, fetchPointMallData, user } = useStore();
 
-    // 데이터를 서버로부터 불러오는 함수
-    const fetchPointMallData = async () => {
-        try {
-            setLoading(true);
-            // 실제 환경에서는 로그인된 사용자의 ID를 사용합니다.
-            const userId = "2"; 
-            const response = await axios.get(`/api/employee/shop/main/${userId}`);
-            
-            if (response.data) {
-                setMallData(response.data);
-            }
-        } catch (error) {
-            console.error("포인트몰 데이터를 불러오는데 실패했습니다:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const userId = user?.memberId; //TODO: 유저 아이디 더미 데이터 
 
-    // 컴포넌트 마운트 시 데이터 로드
     useEffect(() => {
-        fetchPointMallData();
-    }, []);
+        // 실제 환경에서는 로그인된 사용자 정보를 가져옵니다.
+        if (userId) {
+            fetchPointMallData(userId);
+        }
+    }, [fetchPointMallData, userId]);
 
     if (loading) return <S.Container>데이터를 불러오는 중입니다...</S.Container>;
 
     return (
         <S.Container>
-            {/* 배너 섹션: 현재 탭에 따라 제목과 아이콘 변경 */}
             <S.BannerSection tab={pointMallTab}>
                 <S.BannerContent>
                     <h1>{pointMallTab === 'SHOP' ? '포인트 몰' : '미션 도전'}</h1>
@@ -53,8 +35,7 @@ const PointMall = () => {
                     </p>
                     <S.PointBadge>
                         <Gift size={20} />
-                        {/* 서버에서 받아온 실제 포인트 출력 */}
-                        <span>나의 보유 포인트: <strong>{mallData.currentPoint.toLocaleString()} P</strong></span>
+                        <span>나의 보유 포인트: <strong>{(mallData?.currentPoint || 0).toLocaleString()} P</strong></span>
                     </S.PointBadge>
                 </S.BannerContent>
                 <S.BackgroundIcon>
@@ -62,19 +43,18 @@ const PointMall = () => {
                 </S.BackgroundIcon>
             </S.BannerSection>
 
-            {/* 탭 버튼 섹션 */}
             <S.TabContainer>
                 <S.TabGroup>
                     <S.TabButton
                         $active={pointMallTab === 'MISSIONS'}
-                        mode="MISSIONS"
+                        $mode="MISSIONS"  /* 👈 추가: 스타일에서 인식할 수 있도록 */
                         onClick={() => setPointMallTab('MISSIONS')}
                     >
                         <Trophy size={18} /> 미션 도전
                     </S.TabButton>
                     <S.TabButton
                         $active={pointMallTab === 'SHOP'}
-                        mode="SHOP"
+                        $mode="SHOP"      /* 👈 추가: 스타일에서 인식할 수 있도록 */
                         onClick={() => setPointMallTab('SHOP')}
                     >
                         <ShoppingBag size={18} /> 포인트 상점
@@ -82,16 +62,15 @@ const PointMall = () => {
                 </S.TabGroup>
             </S.TabContainer>
 
-            {/* 분리된 컴포넌트에 데이터 전달 */}
             {pointMallTab === 'SHOP' ? (
                 <ShopSection 
                     items={mallData.shopItems} 
-                    refreshData={fetchPointMallData} 
+                    refreshData={() => fetchPointMallData(userId)} 
                 />
             ) : (
                 <MissionSection 
                     missions={mallData.missions} 
-                    refreshData={fetchPointMallData} 
+                    refreshData={() => fetchPointMallData(userId)} 
                 />
             )}
         </S.Container>
