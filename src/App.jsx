@@ -8,6 +8,7 @@ import AdminDashboard from "./pages/admin/Dashboard/Dashboard";
 import AdminGifticonManagement from "./pages/admin/GifticonManagement/GifticonManagement";
 import PurchaseHistory from "./pages/admin/GifticonManagement/PurchaseHistory/PurchaseHistory";
 import Monitoring from "./pages/admin/Monitoring/Monitoring";
+import AdminMyPage from "./pages/admin/Mypage/MyPage";
 
 // 공통 페이지 (Common Pages)
 import LandingPage from "./pages/common/Landing/Landing";
@@ -107,6 +108,11 @@ function App() {
                       <Route
                         path="gifticons/history"
                         element={<PurchaseHistory />}
+                      />
+                      <Route path="mypage/*" element={<AdminMyPage />} />
+                      <Route
+                        path="*"
+                        element={<Navigate to="/app/dashboard" replace />}
                       />
                     </>
                   )}
