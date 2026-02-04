@@ -88,12 +88,8 @@ function App() {
                   title="승인 대기 중"
                   description="관리자의 입사 승인을 기다리고 있습니다."
                 />
-              ) : user?.joinStatus === "REJECTED" ? (
-                <StatusPlaceholder
-                  icon={ShieldAlert}
-                  title="신청 반려됨"
-                  description="입사 신청이 반려되었습니다."
-                />
+              ) : (user?.joinStatus === "REJECTED" || user?.joinStatus === "R") ? (
+                <Navigate to="/auth?step=SIGNUP_TYPE" replace />
               ) : (
                 <Routes>
                   {/* 관리자 라우트 */}
