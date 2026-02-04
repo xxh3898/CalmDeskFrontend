@@ -14,18 +14,20 @@ export const defaultMetrics = {
  * API 응답 한 건 → 카드/모달용 멤버 객체
  */
 export function mapApiToMemberCard(m) {
+  const remainingLeave = m.remainingLeave != null ? m.remainingLeave : '-';
   return {
     id: m.memberId,
     name: m.name ?? '-',
     dept: m.departmentName ?? '-',
     role: m.rankName ?? '-',
     email: m.email ?? '-',
+    phone: m.phone ?? '-',
+    joinDate: m.joinDate ?? '-',
+    remainingLeave,
     stress: 0,
-    phone: '-',
-    joinDate: '-',
     avatar: '👤',
     status: '-',
-    metrics: { ...defaultMetrics },
+    metrics: { ...defaultMetrics, leave: remainingLeave },
     attendanceRecord: {},
   };
 }

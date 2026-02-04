@@ -52,11 +52,11 @@ export default function MemberDetailModal({ member, onClose }) {
               </S.ContactChip>
               <S.ContactChip>
                 <Calendar />
-                <span>{member.joinDate} 입사</span>
+                <span>{member.joinDate ? `${member.joinDate} 입사` : '-'}</span>
               </S.ContactChip>
               <S.ContactChip>
                 <Palmtree size={14} />
-                <span>잔여 연차: {member.metrics.leave}일</span>
+                <span>잔여 연차: {typeof member.remainingLeave === 'number' ? `${member.remainingLeave}일` : (member.remainingLeave ?? member.metrics?.leave ?? '-')}</span>
               </S.ContactChip>
             </S.ContactRow>
           </S.ModalInfo>
