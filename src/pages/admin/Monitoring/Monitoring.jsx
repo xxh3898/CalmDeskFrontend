@@ -196,6 +196,8 @@ const AdminMonitoring = () => {
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 700 }}
+                  padding={{ left: 20, right: 20 }}
+                  interval={0}
                 />
                 <YAxis hide />
                 <Tooltip
