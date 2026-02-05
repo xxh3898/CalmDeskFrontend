@@ -60,8 +60,10 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 const AdminMonitoring = () => {
+  const [selectedPeriod, setSelectedPeriod] = useState('MONTH');
   const [isPeriodOpen, setIsPeriodOpen] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState('2026년 1분기');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [isYearOpen, setIsYearOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     stats: {
@@ -82,16 +84,24 @@ const AdminMonitoring = () => {
     factors: []
   });
 
-  const periods = ['2026년 1분기', '2025년 4분기', '2025년 3분기', '2025년 2분기'];
+  const periodOptions = [
+    { label: '월간 (기본값)', value: 'MONTH' },
+    { label: '1분기', value: 'Q1' },
+    { label: '2분기', value: 'Q2' },
+    { label: '3분기', value: 'Q3' },
+    { label: '4분기', value: 'Q4' }
+  ];
+
+  const yearOptions = [2026, 2025];
 
   useEffect(() => {
     loadData();
-  }, [selectedPeriod]);
+  }, [selectedPeriod, selectedYear]);
 
   const loadData = async () => {
     try {
       setLoading(true);
-      const res = await fetchMonitoringData(selectedPeriod);
+      const res = await fetchMonitoringData(selectedPeriod, selectedYear);
       if (res) {
         setData(res);
       }
@@ -116,23 +126,48 @@ const AdminMonitoring = () => {
           <p>Advanced Emotional Analytics</p>
         </S.TitleBox>
         <S.HeaderControls>
+          {/* Year Dropdown */}
+          <S.PeriodDropdownContainer style={{ marginRight: '8px' }}>
+            <S.PeriodButton onClick={() => setIsYearOpen(!isYearOpen)}>
+              {selectedYear}년
+              <ChevronDown size={14} style={{ transform: isYearOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }} />
+            </S.PeriodButton>
+            {isYearOpen && (
+              <S.DropdownMenu>
+                {yearOptions.map(year => (
+                  <S.DropdownItem
+                    key={year}
+                    onClick={() => {
+                      setSelectedYear(year);
+                      setIsYearOpen(false);
+                    }}
+                    active={selectedYear === year}
+                  >
+                    {year}년
+                  </S.DropdownItem>
+                ))}
+              </S.DropdownMenu>
+            )}
+          </S.PeriodDropdownContainer>
+
+          {/* Period Dropdown */}
           <S.PeriodDropdownContainer>
             <S.PeriodButton onClick={() => setIsPeriodOpen(!isPeriodOpen)}>
-              {selectedPeriod}
+              {periodOptions.find(p => p.value === selectedPeriod)?.label}
               <ChevronDown size={14} style={{ transform: isPeriodOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }} />
             </S.PeriodButton>
             {isPeriodOpen && (
               <S.DropdownMenu>
-                {periods.map(period => (
+                {periodOptions.map(option => (
                   <S.DropdownItem
-                    key={period}
+                    key={option.value}
                     onClick={() => {
-                      setSelectedPeriod(period);
+                      setSelectedPeriod(option.value);
                       setIsPeriodOpen(false);
                     }}
-                    active={selectedPeriod === period}
+                    active={selectedPeriod === option.value}
                   >
-                    {period}
+                    {option.label}
                   </S.DropdownItem>
                 ))}
               </S.DropdownMenu>
