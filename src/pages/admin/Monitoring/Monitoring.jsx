@@ -202,7 +202,7 @@ const AdminMonitoring = () => {
           { label: '현재 전체 직원', val: stats.totalEmployees, trend: stats.employeeTrend, icon: Users, color: 'blue' },
           { label: `${getPeriodPrefix()} 평균 스트레스`, val: stats.avgStress, trend: stats.stressTrend, icon: HeartPulse, color: 'rose' },
           { label: `${getPeriodPrefix()} 위험군 (70%+)`, val: stats.highRiskCount, trend: stats.riskTrend, icon: AlertTriangle, color: 'orange' },
-          { label: `${getPeriodPrefix()} 평균 쿨다운`, val: stats.cooldownTrend, trend: stats.cooldownTrend, icon: Zap, color: 'violet' },
+          { label: `${getPeriodPrefix()} 평균 쿨다운`, val: stats.avgCooldown, trend: stats.cooldownTrend, icon: Zap, color: 'violet' },
           { label: `${getPeriodPrefix()} 상담 건수`, val: stats.consultationCount, trend: stats.consultationTrend, icon: MessageSquare, color: 'emerald' },
         ].map((stat, i) => (
           <S.StatCard key={i}>
