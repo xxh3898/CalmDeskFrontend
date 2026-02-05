@@ -64,6 +64,10 @@ const AdminMonitoring = () => {
   const [isPeriodOpen, setIsPeriodOpen] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [isYearOpen, setIsYearOpen] = useState(false);
+
+  // 그래프 필터 상태
+  const [activeMetric, setActiveMetric] = useState('ALL'); // 'ALL', 'consultation', 'stress', 'cooldown'
+  const [activeStressLevel, setActiveStressLevel] = useState('ALL'); // 'ALL' 또는 스트레스 단계 명
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     stats: {
@@ -112,11 +116,19 @@ const AdminMonitoring = () => {
     }
   };
 
+  const toggleMetric = (metric) => {
+    setActiveMetric(prev => prev === metric ? 'ALL' : metric);
+  };
+
+  const toggleStressLevel = (levelName) => {
+    setActiveStressLevel(prev => prev === levelName ? 'ALL' : levelName);
+  };
+
   const { stats, trend, distribution, deptComparison, factors } = data;
 
   return (
     <S.Container>
-      {/* Header with Title & Filter */}
+      {/* 제목 및 필터 헤더 */}
       <S.Header>
         <S.TitleBox>
           <h2>
@@ -126,7 +138,7 @@ const AdminMonitoring = () => {
           <p>Advanced Emotional Analytics</p>
         </S.TitleBox>
         <S.HeaderControls>
-          {/* Year Dropdown */}
+          {/* 연도 선택 드롭다운 */}
           <S.PeriodDropdownContainer style={{ marginRight: '8px' }}>
             <S.PeriodButton onClick={() => setIsYearOpen(!isYearOpen)}>
               {selectedYear}년
@@ -150,7 +162,7 @@ const AdminMonitoring = () => {
             )}
           </S.PeriodDropdownContainer>
 
-          {/* Period Dropdown */}
+          {/* 기간 선택 드롭다운 */}
           <S.PeriodDropdownContainer>
             <S.PeriodButton onClick={() => setIsPeriodOpen(!isPeriodOpen)}>
               {periodOptions.find(p => p.value === selectedPeriod)?.label}
@@ -177,7 +189,7 @@ const AdminMonitoring = () => {
         </S.HeaderControls>
       </S.Header>
 
-      {/* Summary Cards */}
+      {/* 요약 카드 섹션 */}
       <S.StatsGrid>
         {[
           { label: '전체 직원', val: stats.totalEmployees, trend: stats.employeeTrend, icon: Users, color: 'blue' },
@@ -210,7 +222,7 @@ const AdminMonitoring = () => {
       </S.StatsGrid>
 
       <S.AnalysisGrid>
-        {/* Monthly Trend Chart */}
+        {/* 월별 추이 차트 */}
         <S.TrendChartCard>
           <S.ChartHeader>
             <S.ChartTitles>
@@ -221,15 +233,39 @@ const AdminMonitoring = () => {
               <p>상담 빈도와 평균 스트레스 수치의 상관관계</p>
             </S.ChartTitles>
             <S.Legend>
-              <S.LegendItem color="#818cf8">
+              <S.LegendItem
+                onClick={() => toggleMetric('consultation')}
+                style={{
+                  cursor: 'pointer',
+                  opacity: activeMetric === 'ALL' || activeMetric === 'consultation' ? 1 : 0.3,
+                  transition: 'opacity 0.2s'
+                }}
+                color="#818cf8"
+              >
                 <div />
                 <span>상담 건수</span>
               </S.LegendItem>
-              <S.LegendItem color="#fb7185">
+              <S.LegendItem
+                onClick={() => toggleMetric('stress')}
+                style={{
+                  cursor: 'pointer',
+                  opacity: activeMetric === 'ALL' || activeMetric === 'stress' ? 1 : 0.3,
+                  transition: 'opacity 0.2s'
+                }}
+                color="#fb7185"
+              >
                 <div />
                 <span>스트레스 %</span>
               </S.LegendItem>
-              <S.LegendItem color="#fb923c">
+              <S.LegendItem
+                onClick={() => toggleMetric('cooldown')}
+                style={{
+                  cursor: 'pointer',
+                  opacity: activeMetric === 'ALL' || activeMetric === 'cooldown' ? 1 : 0.3,
+                  transition: 'opacity 0.2s'
+                }}
+                color="#fb923c"
+              >
                 <div />
                 <span>쿨다운 횟수</span>
               </S.LegendItem>
@@ -273,15 +309,42 @@ const AdminMonitoring = () => {
                   itemStyle={{ fontWeight: 900 }}
                   labelStyle={{ color: '#fff', fontWeight: 'bold', marginBottom: '8px' }}
                 />
-                <Area name="상담" type="monotone" dataKey="consultation" stroke="#818cf8" strokeWidth={3} fillOpacity={1} fill="url(#colorConsult)" />
-                <Area name="스트레스" type="monotone" dataKey="stress" stroke="#fb7185" strokeWidth={3} fillOpacity={1} fill="url(#colorStress)" />
-                <Area name="쿨다운" type="monotone" dataKey="cooldown" stroke="#fb923c" strokeWidth={3} fillOpacity={1} fill="url(#colorCooldown)" />
+                <Area
+                  name="상담"
+                  type="monotone"
+                  dataKey="consultation"
+                  stroke="#818cf8"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorConsult)"
+                  hide={activeMetric !== 'ALL' && activeMetric !== 'consultation'}
+                />
+                <Area
+                  name="스트레스"
+                  type="monotone"
+                  dataKey="stress"
+                  stroke="#fb7185"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorStress)"
+                  hide={activeMetric !== 'ALL' && activeMetric !== 'stress'}
+                />
+                <Area
+                  name="쿨다운"
+                  type="monotone"
+                  dataKey="cooldown"
+                  stroke="#fb923c"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorCooldown)"
+                  hide={activeMetric !== 'ALL' && activeMetric !== 'cooldown'}
+                />
               </AreaChart>
             </ResponsiveContainer>
           </S.ChartWrapper>
         </S.TrendChartCard>
 
-        {/* Stress Distribution */}
+        {/* 스트레스 수준 분포 */}
         <S.DistributionCard>
           <div style={{ marginBottom: '2rem' }}>
             <S.ChartTitles>
@@ -306,7 +369,12 @@ const AdminMonitoring = () => {
                   dataKey="value"
                 >
                   {distribution.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      stroke="none"
+                      fillOpacity={activeStressLevel === 'ALL' || activeStressLevel === entry.name ? 1 : 0.1}
+                    />
                   ))}
                 </Pie>
                 <Tooltip
@@ -323,7 +391,19 @@ const AdminMonitoring = () => {
 
           <S.DistributionList>
             {distribution.map((item, i) => (
-              <S.DistItem key={i}>
+              <S.DistItem
+                key={i}
+                onClick={() => toggleStressLevel(item.name)}
+                style={{
+                  cursor: 'pointer',
+                  opacity: activeStressLevel === 'ALL' || activeStressLevel === item.name ? 1 : 0.3,
+                  transition: 'opacity 0.2s',
+                  backgroundColor: activeStressLevel === item.name ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+                  borderRadius: '8px',
+                  padding: '4px 8px',
+                  margin: '0 -8px'
+                }}
+              >
                 <div>
                   <S.ColorDot color={item.color} />
                   <span>{item.name}</span>
@@ -336,7 +416,7 @@ const AdminMonitoring = () => {
       </S.AnalysisGrid>
 
       <S.BottomGrid>
-        {/* Dept Comparison */}
+        {/* 부서별 비교 차트 */}
         <S.ComparisonCard>
           <S.ChartHeader>
             <S.ChartTitles>
@@ -371,7 +451,7 @@ const AdminMonitoring = () => {
           </div>
         </S.ComparisonCard>
 
-        {/* Stress Factors Horizontal */}
+        {/* 주요 스트레스 요인 분석 */}
         <S.FactorsCard>
           <S.ChartTitles>
             <h3>
