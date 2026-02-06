@@ -21,6 +21,9 @@ export const createEmployeeShop = (set, get) => ({
         try {
             set({ loading: true });
 
+            const user = get().user;
+            const companyId = user?.companyId;
+
             const headers = getAuthHeader();
             const url = `${API_URL}/api/employee/shop/${userId}`;
 
@@ -28,7 +31,10 @@ export const createEmployeeShop = (set, get) => ({
             console.log(`%c🚀 GET 요청 시도: ${url}`, 'color: #2196F3; font-weight: bold');
             console.log('Headers:', headers);
 
-            const response = await axios.get(url, { headers });
+            const response = await axios.get(url, { 
+                headers,
+                params: { companyId: companyId } // ?companyId=11 형태로 전송됨
+            });
             
             console.log('%c✅ 데이터 로드 성공:', 'color: #4CAF50; font-weight: bold', response.data);
 
@@ -123,24 +129,32 @@ export const createEmployeeShop = (set, get) => ({
 
     // createEmployeeShop.js
     fetchAllPurchaseHistory: async () => {
-        try {
-            set({ loading: true });
-            const headers = getAuthHeader();
-            // 모든 내역을 가져오는 엔드포인트
-            const url = `${API_URL}/api/employee/shop/history/all`;
+    try {
+        set({ loading: true });
+        
+        // 1. 스토어의 user 정보에서 companyId 추출
+        const user = get().user;
+        const companyId = user?.companyId;
 
-            console.log(`%c🌐 전체 구매 내역 요청: ${url}`, 'color: #009688; font-weight: bold');
+        const headers = getAuthHeader();
+        const url = `${API_URL}/api/employee/shop/history/all`;
 
-            const response = await axios.get(url, { headers });
-            
-            // 스토어의 purchaseHistory 상태 업데이트
-            set({ purchaseHistory: response.data });
-            console.log('✅ 전체 내역 로드 성공:', response.data.length, '건');
-        } catch (error) {
-            console.error("❌ 전체 내역 로드 실패:", error);
-        } finally {
-            set({ loading: false });
-        }
-    },
+        console.log(`%c🌐 회사[${companyId}] 전체 구매 내역 요청: ${url}`, 'color: #009688; font-weight: bold');
+
+        // 2. axios 요청 시 params 옵션을 사용하여 companyId 전달
+        const response = await axios.get(url, { 
+            headers,
+            params: { companyId: companyId } // URL 뒤에 ?companyId=값 형태로 붙음
+        });
+        
+        // 스토어의 purchaseHistory 상태 업데이트
+        set({ purchaseHistory: response.data });
+        console.log('✅ 내역 로드 성공:', response.data.length, '건');
+    } catch (error) {
+        console.error("❌ 내역 로드 실패:", error);
+    } finally {
+        set({ loading: false });
+    }
+},
 
 });
