@@ -22,7 +22,9 @@ export const createAdminShopSlice = (set, get) => ({
     // 1. 초기 데이터 로드: 백엔드에서 모든 아이템 가져오기
     fetchItems: async (companyId) => {
         // 1. 아직 로그인 로직이 없으므로, 전달받은 id가 없으면 가상의 1번을 사용
-       const targetId = companyId || get().user?.companyId || 1;
+       const rawId = companyId || get().user?.companyId || 1;
+       const targetId = parseInt(String(rawId).split(':')[0], 10);
+       console.log("요청하는 Company ID:", targetId);
 
         set({ isLoading: true });
         try {
@@ -44,6 +46,7 @@ export const createAdminShopSlice = (set, get) => ({
 
     // 2. 개별 아이템 활성 상태 토글
     toggleItemStatus: async (id) => {
+        const targetId = parseInt(String(get().user?.companyId || 1).split(':')[0], 10);
         try {
 
             await axios.patch(`${API_URL}/api/admin/shop/items/${id}/toggle`, {}, {
@@ -63,6 +66,7 @@ export const createAdminShopSlice = (set, get) => ({
 
    // 3. 전체 아이템 활성화
     activateAll: async () => {
+        const targetId = parseInt(String(get().user?.companyId || 1).split(':')[0], 10);
         const previousItems = get().items;
         set((state) => ({
             items: state.items.map((item) => ({ ...item, active: true })),
@@ -70,6 +74,8 @@ export const createAdminShopSlice = (set, get) => ({
 
         try {
             await axios.post(`${API_URL}/api/admin/shop/items/activate-all`, {}, {
+                
+                params: { companyId: targetId },
                 headers: getAuthHeader() // 👈 헤더 추가
             });
         } catch (error) {
@@ -80,13 +86,18 @@ export const createAdminShopSlice = (set, get) => ({
 
     // 4. 전체 아이템 비활성화
     deactivateAll: async () => {
+
+        const rawId = get().user?.companyId || 1; 
+        const targetId = parseInt(String(rawId).split(':')[0], 10); // 정제
         const previousItems = get().items;
+
         set((state) => ({
             items: state.items.map((item) => ({ ...item, active: false })),
         }));
 
         try {
             await axios.post(`${API_URL}/api/admin/shop/items/deactivate-all`, {}, {
+                params: { companyId: targetId },
                 headers: getAuthHeader() // 👈 헤더 추가
             });
         } catch (error) {
