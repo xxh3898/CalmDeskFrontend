@@ -137,7 +137,7 @@ export const createEmployeeShop = (set, get) => ({
         const companyId = user?.companyId;
 
         const headers = getAuthHeader();
-        const url = `${API_URL}/api/employee/shop/history/all`;
+        const url = `${API_URL}/api/admin/shop/history/all`;
 
         console.log(`%c🌐 회사[${companyId}] 전체 구매 내역 요청: ${url}`, 'color: #009688; font-weight: bold');
 
