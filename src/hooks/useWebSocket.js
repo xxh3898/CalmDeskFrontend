@@ -90,7 +90,10 @@ const useWebSocket = () => {
         let subscription;
         let readSubscription;
 
-        const { addMessage, updateReadStatus } = useStore.getState().chat;
+        const { addMessage, updateReadStatus, updateChatList } = useStore.getState().chat;
+        const user = useStore.getState().user; // hook 내부 user 대신 getState 사용 (useEffect 의존성 관리 단순화 위해, 또는 prop으로 받아야 함)
+        // 하지만 hook 상단에서 user를 가져왔다면 의존성에 넣는 게 맞음.
+        // 여기서는 위에서 const { user } = useStore(); 가 없으므로 추가 필요.
 
         try {
             subscription = stompClient.subscribe(
@@ -128,6 +131,39 @@ const useWebSocket = () => {
             if (readSubscription) readSubscription.unsubscribe();
         };
     }, [currentRoomId, isConnected, stompClient, setIsConnected, setStompClient]);
+
+    // 사용자별 개인 채널 구독 (안 읽은 메시지 수 및 목록 갱신용)
+    useEffect(() => {
+        if (!stompClient || !isConnected) return;
+        if (!stompClient.connected) return;
+
+        const user = useStore.getState().user;
+        if (!user || !user.email) return;
+
+        console.log(`Subscribing to user topic: ${user.email}`);
+        let userSubscription;
+        const { updateChatList } = useStore.getState().chat;
+
+        try {
+            userSubscription = stompClient.subscribe(
+                `/sub/chat/user/${user.email}`,
+                (message) => {
+                    try {
+                        const receivedMsg = JSON.parse(message.body);
+                        updateChatList(receivedMsg);
+                    } catch (e) {
+                        console.error('JSON Parse Error in user topic:', e);
+                    }
+                }
+            );
+        } catch (error) {
+            console.error("User Subscription failed:", error);
+        }
+
+        return () => {
+            if (userSubscription) userSubscription.unsubscribe();
+        };
+    }, [isConnected, stompClient]);
 
     return stompClient;
 };

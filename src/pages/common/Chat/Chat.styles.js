@@ -212,13 +212,32 @@ animation: 0.2s ease-out 0s 1 normal forwards running ${keyframes`
 }
 `;
 
-export const UnreadCount = styled.span`
-font-size: 0.7rem;
-color: #fbbf24; /* 노란색-400 */
-font-weight: bold;
-margin: 0 5px;
-align-self: flex-end;
-margin-bottom: 5px;
+
+
+// 메시지 안 읽은 사람 수 (1, 2 등)
+export const UnreadCount = styled.div`
+    font-size: 0.7rem;
+    color: #ef4444;
+    font-weight: 600;
+    margin-bottom: 2px;
+    align-self: flex-end;
+    margin-right: 4px;
+`;
+
+// 채팅방 목록의 안 읽은 메시지 수 뱃지
+export const UnreadBadge = styled.div`
+    background-color: #ef4444; // 빨간색
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    margin-left: 10px; // 이름/내용과 간격
 `;
 
 export const InputArea = styled.form`

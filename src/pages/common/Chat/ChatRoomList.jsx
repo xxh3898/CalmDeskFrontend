@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import useStore from '../../../store/useStore';
-import { RoomListStart, RoomItem } from './Chat.styles';
+import { RoomListStart, RoomItem, UnreadBadge } from './Chat.styles';
 import axios from '../../../api/axios';
 
 const ChatRoomList = ({ isDark }) => {
@@ -8,7 +8,8 @@ const ChatRoomList = ({ isDark }) => {
         chatRooms,
         currentRoomId,
         setChatRooms,
-        setCurrentRoomId
+        setCurrentRoomId,
+        resetUnreadCount
     } = useStore(state => state.chat);
 
     const { user } = useStore();
@@ -30,6 +31,7 @@ const ChatRoomList = ({ isDark }) => {
 
     const handleRoomClick = (roomId) => {
         setCurrentRoomId(roomId);
+        resetUnreadCount(roomId);
     };
 
     const formatTime = (timeString) => {
@@ -61,6 +63,11 @@ const ChatRoomList = ({ isDark }) => {
                         <div className="room-name">{getRoomName(room.name)}</div>
                         <div className="last-message">{room.lastMessageContent}</div>
                         <div className="time">{formatTime(room.lastMessageTime)}</div>
+                        <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+                            {room.unreadCount > 0 && (
+                                <UnreadBadge>{room.unreadCount}</UnreadBadge>
+                            )}
+                        </div>
                     </RoomItem>
                 ))}
             </div>

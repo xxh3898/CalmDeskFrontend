@@ -51,5 +51,32 @@ export const createChatSlice = (set, get) => ({
                 )
             }
         })),
+        resetUnreadCount: (roomId) => set((state) => ({
+            chat: {
+                ...state.chat,
+                chatRooms: state.chat.chatRooms.map(room =>
+                    room.roomId === roomId
+                        ? { ...room, unreadCount: 0 }
+                        : room
+                )
+            }
+        })),
+        updateChatList: (message) => set((state) => ({
+            chat: {
+                ...state.chat,
+                chatRooms: state.chat.chatRooms.map(room =>
+                    room.roomId === message.roomId
+                        ? {
+                            ...room,
+                            lastMessageContent: message.content,
+                            lastMessageTime: message.createdDate,
+                            unreadCount: state.chat.currentRoomId !== message.roomId
+                                ? (room.unreadCount || 0) + 1
+                                : 0
+                        }
+                        : room
+                )
+            }
+        })),
     }
 });
