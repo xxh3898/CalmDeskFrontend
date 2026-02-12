@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import useStore from '../../../store/useStore';
 import { RoomListStart, RoomItem } from './Chat.styles';
-import axios from '../../../api/axios'; // 커스텀 axios 인스턴스 사용 가정
+import axios from '../../../api/axios';
 
 const ChatRoomList = ({ isDark }) => {
     const {
@@ -10,6 +10,8 @@ const ChatRoomList = ({ isDark }) => {
         setChatRooms,
         setCurrentRoomId
     } = useStore(state => state.chat);
+
+    const { user } = useStore();
 
     useEffect(() => {
         const fetchChatRooms = async () => {
@@ -36,6 +38,13 @@ const ChatRoomList = ({ isDark }) => {
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
+    const getRoomName = (roomName) => {
+        if (!roomName || !user?.name) return roomName;
+        const names = roomName.split(',').map(n => n.trim());
+        const filteredNames = names.filter(n => n !== user.name);
+        return filteredNames.length > 0 ? filteredNames.join(', ') : roomName;
+    };
+
     return (
         <>
             <RoomListStart $isDark={isDark}>
@@ -49,7 +58,7 @@ const ChatRoomList = ({ isDark }) => {
                         $isDark={isDark}
                         onClick={() => handleRoomClick(room.roomId)}
                     >
-                        <div className="room-name">{room.name}</div>
+                        <div className="room-name">{getRoomName(room.name)}</div>
                         <div className="last-message">{room.lastMessageContent}</div>
                         <div className="time">{formatTime(room.lastMessageTime)}</div>
                     </RoomItem>

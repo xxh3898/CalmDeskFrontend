@@ -9,13 +9,28 @@ const ChatRoom = ({ isDark }) => {
         messages,
         setMessages,
         stompClient,
-        isConnected
+        isConnected,
+        chatRooms
     } = useStore(state => state.chat);
 
     // 현재 로그인한 사용자 정보 가져오기 (Auth Store)
     const { user } = useStore();
     // user 객체에는 memberId, email, name 등 포함
     // 메시지 렌더링 시 user.memberId와 msg.senderId를 비교하여 '나의 메시지'인지 식별하는 데 사용됨.
+
+    // 현재 채팅방 이름 가져오기
+    const getCurrentRoomName = () => {
+        if (!chatRooms || !currentRoomId) return '';
+        const room = chatRooms.find(r => r.roomId === currentRoomId);
+        const roomName = room ? room.name : '';
+
+        if (!roomName || !user?.name) return roomName;
+        const names = roomName.split(',').map(n => n.trim());
+        const filteredNames = names.filter(n => n !== user.name);
+        return filteredNames.length > 0 ? filteredNames.join(', ') : roomName;
+    };
+
+    const currentRoomName = getCurrentRoomName();
 
     const [inputText, setInputText] = useState('');
     const messageEndRef = useRef(null);
@@ -82,7 +97,9 @@ const ChatRoom = ({ isDark }) => {
                 color: isDark ? '#f1f5f9' : 'inherit'
             }}>
                 {/* 현재 채팅방 이름이나 상대방 이름 표시 */}
-                <h3 style={{ margin: 0 }}>채팅방 {currentRoomId && `(${currentRoomId})`}</h3>
+                <h3 style={{ margin: 0 }}>
+                    {currentRoomName ? `${currentRoomName}님과의 채팅방` : `채팅방 ${currentRoomId && `(${currentRoomId})`}`}
+                </h3>
                 <div style={{ fontSize: '0.8rem', color: isConnected ? (isDark ? '#4ade80' : 'green') : (isDark ? '#f87171' : 'red') }}>
                     {isConnected ? '● 연결됨' : '○ 연결 중...'}
                 </div>

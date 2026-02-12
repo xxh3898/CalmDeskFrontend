@@ -123,10 +123,7 @@ export const MessageBubble = styled.div`
         font-size: 0.7rem;
         margin-top: 5px;
         text-align: right;
-        color: ${(props) => {
-        if (props.$isMe) return props.$isDark ? '#e2e8f0' : '#e3f2fd';
-        return props.$isDark ? darkTheme.textSecondary : '#aaa';
-    }};
+        color: ${(props) => props.$isDark ? 'white' : 'black'};
     }
 `;
 
