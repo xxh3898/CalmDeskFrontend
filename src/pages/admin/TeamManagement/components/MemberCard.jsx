@@ -37,14 +37,14 @@ export default function MemberCard({ member, onClick, onChatClick }) {
               cursor: onChatClick ? 'pointer' : 'default',
               padding: '4px',
               borderRadius: '50%',
-              background: onChatClick ? '#f1f5f9' : 'transparent',
+              background: onChatClick ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               visibility: onChatClick ? 'visible' : 'hidden'
             }}
           >
-            <MessageCircle size={16} color="#64748b" />
+            <MessageCircle size={16} color="rgba(255, 255, 255, 0.7)" />
           </div>
           <ChevronRight size={16} color="#334155" />
         </div>

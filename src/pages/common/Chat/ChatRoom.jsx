@@ -3,7 +3,7 @@ import useStore from '../../../store/useStore';
 import { ChatArea, MessageList, MessageBubble, InputArea } from './Chat.styles';
 import axios from '../../../api/axios';
 
-const ChatRoom = () => {
+const ChatRoom = ({ isDark }) => {
     const {
         currentRoomId,
         messages,
@@ -73,14 +73,21 @@ const ChatRoom = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <div style={{ padding: '20px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{
+                padding: '20px',
+                borderBottom: `1px solid ${isDark ? '#334155' : '#f0f0f0'}`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                color: isDark ? '#f1f5f9' : 'inherit'
+            }}>
                 {/* 현재 채팅방 이름이나 상대방 이름 표시 */}
                 <h3 style={{ margin: 0 }}>채팅방 {currentRoomId && `(${currentRoomId})`}</h3>
-                <div style={{ fontSize: '0.8rem', color: isConnected ? 'green' : 'red' }}>
+                <div style={{ fontSize: '0.8rem', color: isConnected ? (isDark ? '#4ade80' : 'green') : (isDark ? '#f87171' : 'red') }}>
                     {isConnected ? '● 연결됨' : '○ 연결 중...'}
                 </div>
             </div>
-            <MessageList>
+            <MessageList $isDark={isDark}>
                 {messages.map((msg, index) => {
                     // msg.senderId와 user.memberId (또는 user.id) 비교
                     const myId = user?.memberId || user?.id; // user might be null initially
@@ -88,7 +95,7 @@ const ChatRoom = () => {
                     const isMe = user && (String(myId) === String(msg.senderId));
 
                     return (
-                        <MessageBubble key={msg.id || index} $isMe={isMe}>
+                        <MessageBubble key={msg.id || index} $isMe={isMe} $isDark={isDark}>
                             {!isMe && <div className="sender">{msg.senderName}</div>}
                             <div>{msg.content}</div>
                             <div className="time">{formatTime(msg.createdDate)}</div>
@@ -97,7 +104,7 @@ const ChatRoom = () => {
                 })}
                 <div ref={messageEndRef} />
             </MessageList>
-            <InputArea onSubmit={handleSendMessage}>
+            <InputArea onSubmit={handleSendMessage} $isDark={isDark}>
                 <input
                     type="text"
                     value={inputText}

@@ -3,7 +3,7 @@ import useStore from '../../../store/useStore';
 import { RoomListStart, RoomItem } from './Chat.styles';
 import axios from '../../../api/axios'; // 커스텀 axios 인스턴스 사용 가정
 
-const ChatRoomList = () => {
+const ChatRoomList = ({ isDark }) => {
     const {
         chatRooms,
         currentRoomId,
@@ -38,7 +38,7 @@ const ChatRoomList = () => {
 
     return (
         <>
-            <RoomListStart>
+            <RoomListStart $isDark={isDark}>
                 <h2>메시지</h2>
             </RoomListStart>
             <div style={{ flex: 1, overflowY: 'auto' }}>
@@ -46,6 +46,7 @@ const ChatRoomList = () => {
                     <RoomItem
                         key={room.id}
                         $active={currentRoomId === room.roomId}
+                        $isDark={isDark}
                         onClick={() => handleRoomClick(room.roomId)}
                     >
                         <div className="room-name">{room.name}</div>
