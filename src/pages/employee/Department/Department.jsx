@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiClient from '../../../api/axios';
 import useStore from '../../../store/useStore';
 import {
@@ -8,14 +9,17 @@ import {
   ArrowRight,
   ChevronDown,
   Check,
-  AlertCircle
+  AlertCircle,
+  MessageCircle
 } from 'lucide-react';
 import * as S from './Department.styles';
 
 const Department = () => {
   // 전역 스토어에서 사용자 정보(내 부서 ID) 가져오기
   const { user } = useStore();
+  const { setCurrentRoomId } = useStore(state => state.chat);
   const myDepartmentId = user?.departmentId || 1; // user 정보가 없으면 기본값 1
+  const navigate = useNavigate();
 
   // 1. UI Status State (필터는 로컬 상태로 관리)
   const [filterStatus, setFilterStatus] = useState('전체');
@@ -72,6 +76,18 @@ const Department = () => {
     if (filterStatus === '전체') return true;
     return member.status === filterStatus;
   });
+
+  const handleChatStart = async (targetMemberId) => {
+    try {
+      const response = await apiClient.post('/chat/room', { targetMemberId });
+      const roomId = response.data;
+      setCurrentRoomId(roomId);
+      navigate('/app/chat');
+    } catch (error) {
+      console.error("Failed to start chat", error);
+      alert("채팅방 생성에 실패했습니다.");
+    }
+  };
 
   if (error) {
     return (
@@ -183,6 +199,17 @@ const Department = () => {
                       <S.PhoneText>{member.phone}</S.PhoneText>
                     </div>
                   </S.ContactItem>
+                  {/* 채팅 버튼 추가 */}
+                  {user?.memberId !== member.memberId && (
+                    <S.ContactItem
+                      type="chat"
+                      style={{ cursor: 'pointer', marginLeft: 'auto' }}
+                      onClick={() => handleChatStart(member.memberId)}
+                    >
+                      <div><MessageCircle size={16} /></div>
+                      <S.PhoneText>채팅하기</S.PhoneText>
+                    </S.ContactItem>
+                  )}
                 </S.ContactInfo>
               </S.CardInner>
             </S.MemberCard>

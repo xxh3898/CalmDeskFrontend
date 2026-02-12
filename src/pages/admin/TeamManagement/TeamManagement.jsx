@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTeamMembers } from './hooks/useTeamMembers';
 import { teamApi } from '../../../api/teamApi';
+import apiClient from '../../../api/axios';
+import useStore from '../../../store/useStore';
 import SummaryCards from './components/SummaryCards';
 import TeamSearchBar from './components/TeamSearchBar';
 import MemberCard from './components/MemberCard';
@@ -30,6 +33,9 @@ const emptyMessageStyle = {
 
 const AdminTeamManagement = () => {
   const { teamMembers, teamList, loading, error } = useTeamMembers();
+  const navigate = useNavigate();
+  const { user } = useStore();
+  const { setCurrentRoomId } = useStore(state => state.chat);
 
   const [selectedDept, setSelectedDept] = useState('전체');
   const [searchQuery, setSearchQuery] = useState('');
@@ -64,6 +70,22 @@ const AdminTeamManagement = () => {
     } catch (err) {
       const message = err.response?.data?.message || err.message || '부서 추가에 실패했습니다.';
       alert(message);
+    }
+  };
+
+  const handleChatStart = async (member) => {
+    if (!member.id) {
+      console.error("Member ID not found", member);
+      return;
+    }
+    try {
+      const response = await apiClient.post('/chat/room', { targetMemberId: member.id });
+      const roomId = response.data;
+      setCurrentRoomId(roomId);
+      navigate('/app/chat');
+    } catch (error) {
+      console.error("Failed to start chat", error);
+      alert("채팅방 생성에 실패했습니다.");
     }
   };
 
@@ -105,7 +127,12 @@ const AdminTeamManagement = () => {
           </p>
         )}
         {filteredTeam.map((member) => (
-          <MemberCard key={member.id} member={member} onClick={setSelectedMember} />
+          <MemberCard
+            key={member.id}
+            member={member}
+            onClick={setSelectedMember}
+            onChatClick={user?.memberId !== member.id ? handleChatStart : undefined}
+          />
         ))}
       </S.MemberList>
 
