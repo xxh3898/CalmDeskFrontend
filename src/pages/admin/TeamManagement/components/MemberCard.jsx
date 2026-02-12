@@ -27,25 +27,25 @@ export default function MemberCard({ member, onClick, onChatClick }) {
           </div>
         </S.MemberStats>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          {onChatClick && (
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                onChatClick(member);
-              }}
-              style={{
-                cursor: 'pointer',
-                padding: '4px',
-                borderRadius: '50%',
-                background: '#f1f5f9',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <MessageCircle size={16} color="#64748b" />
-            </div>
-          )}
+          <div
+            onClick={(e) => {
+              if (!onChatClick) return;
+              e.stopPropagation();
+              onChatClick(member);
+            }}
+            style={{
+              cursor: onChatClick ? 'pointer' : 'default',
+              padding: '4px',
+              borderRadius: '50%',
+              background: onChatClick ? '#f1f5f9' : 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              visibility: onChatClick ? 'visible' : 'hidden'
+            }}
+          >
+            <MessageCircle size={16} color="#64748b" />
+          </div>
           <ChevronRight size={16} color="#334155" />
         </div>
       </S.CardContent>

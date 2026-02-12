@@ -199,17 +199,18 @@ const Department = () => {
                       <S.PhoneText>{member.phone}</S.PhoneText>
                     </div>
                   </S.ContactItem>
-                  {/* 채팅 버튼 추가 */}
-                  {user?.memberId !== member.memberId && (
-                    <S.ContactItem
-                      type="chat"
-                      style={{ cursor: 'pointer', marginLeft: 'auto' }}
-                      onClick={() => handleChatStart(member.memberId)}
-                    >
-                      <div><MessageCircle size={16} /></div>
-                      <S.PhoneText>채팅하기</S.PhoneText>
-                    </S.ContactItem>
-                  )}
+                  <S.ContactItem
+                    type="chat"
+                    style={{
+                      cursor: user?.memberId !== member.memberId ? 'pointer' : 'default',
+                      marginLeft: 'auto',
+                      visibility: user?.memberId !== member.memberId ? 'visible' : 'hidden'
+                    }}
+                    onClick={() => user?.memberId !== member.memberId && handleChatStart(member.memberId)}
+                  >
+                    <div><MessageCircle size={16} /></div>
+                    <S.PhoneText>채팅하기</S.PhoneText>
+                  </S.ContactItem>
                 </S.ContactInfo>
               </S.CardInner>
             </S.MemberCard>
