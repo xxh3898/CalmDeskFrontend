@@ -12,6 +12,7 @@ import * as S from "./Header.styles";
 
 // --- 1. 전체 알림 모달 컴포넌트 ---
 const AllNotificationsModal = ({ onClose }) => {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState("ALL");
   const { notifications, markAsRead , isAdminMode} = useStore();
   
@@ -52,7 +53,19 @@ const AllNotificationsModal = ({ onClose }) => {
         <S.ModalList>
           {filtered.length > 0 ? (
             filtered.map((item) => (
-              <S.ModalItem key={item.id} read={item.read} onClick={() => !item.read && markAsRead(item.id)}>
+              <S.ModalItem style={{ cursor: item.redirectUrl ? "pointer" : "default" }} key={item.id} read={item.read} onClick={() => {
+                      // 읽음 처리
+                      if (!item.read) {
+                        markAsRead(item.id);
+                      }
+
+                      // redirectUrl 있으면 이동
+                      if (item.redirectUrl) {
+                        navigate(item.redirectUrl);
+                        onClose(); // 모달 닫기
+                      }
+
+                    }}>
                 <S.IconBox type={item.type || "notice"}>
                   {item.type === "success" ? <CheckCircle2 size={18} /> : 
                    item.type === "alert" ? <AlertCircle size={18} /> : <Bell size={18} />}
