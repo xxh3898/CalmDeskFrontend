@@ -10,16 +10,16 @@ import StressTopList from "./components/StressTopList";
 import MemberDetailModal from "../TeamManagement/components/MemberDetailModal";
 
 const AdminDashboard = () => {
-  const { dashboardData, loading, error } = useDashboardData();
+  const { realtimeData, yesterdayData, loading, error } = useDashboardData();
   const [selectedMember, setSelectedMember] = useState(null);
   const [allMembers, setAllMembers] = useState([]);
 
-  // 전체 팀원 데이터 가져오기
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const members = await teamApi.getMembers();
-        setAllMembers(members);
+        const response = await teamApi.getAllMembers();
+        console.log("response:", response);
+        setAllMembers(response.content || []);
       } catch (err) {
         console.error("팀원 데이터 로드 실패:", err);
       }
@@ -69,14 +69,15 @@ const AdminDashboard = () => {
 
   const handleSelectMember = (member) => {
     console.log("member : ", member);
+    console.log("allMembers : ", allMembers);
 
-    // allMembers에서 해당 멤버의 전체 정보 찾기
     const fullData = allMembers.find((m) => m.memberId === member.memberId);
 
     if (fullData) {
       const adaptedMember = {
         id: fullData.memberId,
         name: fullData.name,
+        avatar: '👤',
         dept: fullData.departmentName,
         stress: member.stressPercentage || fullData.stress,
         role: fullData.rankName || "-",
@@ -92,7 +93,6 @@ const AdminDashboard = () => {
       };
       setSelectedMember(adaptedMember);
     } else {
-      // fullData를 못 찾은 경우 기본 데이터로 표시
       const adaptedMember = {
         id: member.memberId,
         name: member.memberName,
@@ -115,20 +115,22 @@ const AdminDashboard = () => {
 
   return (
     <S.Container>
-      <DashboardBanner companyStats={dashboardData.companyStats} />
-
-      <DashboardStats companyStats={dashboardData.companyStats} />
-
+      <DashboardBanner companyStats={realtimeData.companyStats} />
+      <DashboardStats
+        companyStats={realtimeData.companyStats}
+        yesterdayStats={yesterdayData?.companyStats}
+      />
       <S.MainGrid>
-        <DashboardChart departmentStats={dashboardData.departmentStats} />
-
+        <DashboardChart
+          departmentStats={realtimeData.departmentStats}
+          yesterdayDeptStats={yesterdayData?.departmentStats}
+        />
         <StressTopList
-          highRiskMembers={dashboardData.highRiskMembers}
-          departmentStats={dashboardData.departmentStats}
+          highRiskMembers={realtimeData.highRiskMembers}
+          departmentStats={realtimeData.departmentStats}
           onSelectMember={handleSelectMember}
         />
       </S.MainGrid>
-
       {selectedMember && (
         <MemberDetailModal
           member={selectedMember}

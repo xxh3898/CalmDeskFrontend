@@ -4,8 +4,23 @@ import apiClient from './axios';
  * 팀원관리 API (관리자 - 로그인한 사용자와 같은 회사 소속만 조회)
  */
 export const teamApi = {
-  getMembers: async () => {
-    const response = await apiClient.get('/admin/team/members');
+  getMembers: async (page = 0, size = 10) => {
+    const response = await apiClient.get('/admin/team/members', {
+      params: { page, size },
+    });
+    return response.data;
+  },
+
+  /** 전체 기준 요약 통계 (총 인원, 위험군, 주의 필요) */
+  getTeamStats: async () => {
+    const response = await apiClient.get('/admin/team/stats');
+    return response.data;
+  },
+
+  getAllMembers: async () => {
+    const response = await apiClient.get('/admin/team/members', {
+      params: { page: 0, size: 1000 },
+    });
     return response.data;
   },
 
@@ -23,8 +38,15 @@ export const teamApi = {
     return response.data;
   },
 
+    /** 회사 소속 부서 목록 (departmentId, departmentName) - 명함 등록 팀 선택용 */
+  getDepartmentsList: async () => {
+    const response = await apiClient.get('/admin/team/departments-list');
+    return response.data;
+  },
+
   /** 회사에 부서 추가 */
   createDepartment: async (departmentName) => {
     await apiClient.post('/admin/team/departments', { departmentName });
   },
 };
+

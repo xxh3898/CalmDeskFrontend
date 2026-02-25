@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTeamMembers } from './hooks/useTeamMembers';
 import { teamApi } from '../../../api/teamApi';
 import apiClient from '../../../api/axios';
@@ -32,10 +33,10 @@ const emptyMessageStyle = {
 };
 
 const AdminTeamManagement = () => {
-  const { teamMembers, teamList, loading, error } = useTeamMembers();
   const navigate = useNavigate();
   const { user } = useStore();
   const { setCurrentRoomId } = useStore(state => state.chat);
+  const { teamMembers, teamList, loading, error, pagination, handlePageChange } = useTeamMembers();
 
   const [selectedDept, setSelectedDept] = useState('전체');
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,6 +44,7 @@ const AdminTeamManagement = () => {
   const [showAddDeptModal, setShowAddDeptModal] = useState(false);
   const [newDeptName, setNewDeptName] = useState('');
   const [departments, setDepartments] = useState(['전체']);
+  const [stats, setStats] = useState({ total: 0, danger: 0, caution: 0 });
 
   const fetchDepartments = async () => {
     try {
@@ -53,8 +55,18 @@ const AdminTeamManagement = () => {
     }
   };
 
+  const fetchStats = async () => {
+    try {
+      const data = await teamApi.getTeamStats();
+      setStats({ total: data.total ?? 0, danger: data.danger ?? 0, caution: data.caution ?? 0 });
+    } catch {
+      // 실패 시 기존 값 유지
+    }
+  };
+
   useEffect(() => {
     fetchDepartments();
+    fetchStats();
   }, []);
 
   const handleAddDepartment = async () => {
@@ -96,11 +108,6 @@ const AdminTeamManagement = () => {
     return matchesDept && matchesSearch;
   });
 
-  const stats = {
-    total: teamList.length,
-    danger: teamList.filter((m) => m.stress >= 80).length,
-    caution: teamList.filter((m) => m.stress >= 70 && m.stress < 80).length,
-  };
 
   return (
     <S.Container>
@@ -135,6 +142,32 @@ const AdminTeamManagement = () => {
           />
         ))}
       </S.MemberList>
+
+      {pagination.totalPages > 1 && (
+        <S.Pagination>
+          <S.PageButton
+            onClick={() => handlePageChange(pagination.currentPage - 1)}
+            disabled={pagination.currentPage === 0}
+          >
+            <ChevronLeft size={20} />
+          </S.PageButton>
+          <S.PageNumber>
+            <strong>{pagination.currentPage + 1}</strong> / {pagination.totalPages}
+          </S.PageNumber>
+          <S.PageButton
+            onClick={() => handlePageChange(pagination.currentPage + 1)}
+            disabled={pagination.currentPage === pagination.totalPages - 1}
+          >
+            <ChevronRight size={20} />
+          </S.PageButton>
+        </S.Pagination>
+      )}
+
+      {pagination.totalElements > 0 && (
+        <S.PaginationInfo>
+          전체 <strong>{pagination.totalElements}명</strong> 중 현재 페이지
+        </S.PaginationInfo>
+      )}
 
       {selectedMember && (
         <MemberDetailModal member={selectedMember} onClose={() => setSelectedMember(null)} />
