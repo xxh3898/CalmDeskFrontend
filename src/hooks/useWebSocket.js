@@ -148,9 +148,11 @@ const useWebSocket = () => {
         const { updateChatList } = useStore.getState().chat;
 
         try {
+            console.log(`[useWebSocket] Subscribing to user topic: /sub/chat/user/${user.email}`);
             userSubscription = stompClient.subscribe(
                 `/sub/chat/user/${user.email}`,
                 (message) => {
+                    console.log('[useWebSocket] User Topic Message Received:', message.body);
                     try {
                         const receivedMsg = JSON.parse(message.body);
                         updateChatList(receivedMsg);
