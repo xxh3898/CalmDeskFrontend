@@ -4,6 +4,7 @@ import useStore from '../../../store/useStore';
 import StressGauge from '../../../components/StressGauge';
 import WeeklyChart from '../../../components/WeeklyChart';
 import apiClient from '../../../api/axios';
+import { startCoolDown } from '../../../api/dashboardApi';
 import {
   Play,
   Coffee,
@@ -60,13 +61,18 @@ const Dashboard = () => {
     '업무량 과다', '까다로운 고객', '시스템 장애', '동료 관계', '개인 사정', '컨디션 난조', '기타'
   ];
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (updateStore = false) => {
     try {
       const response = await apiClient.get('/employee/dashboard');
+      console.log('fetchDashboardData called:', new Error().stack)
+      console.log('currentStatus:', response.data.attendanceStats.currentStatus);
+      console.log('startTime:', response.data.attendanceStats.startTime);
       setDashboardData(response.data);
-
+  
       // 백엔드 상태와 스토어 동기화
       const status = response.data.attendanceStats.currentStatus;
+
+      if (!updateStore) return
 
       switch (status) {
         case '업무 중':
@@ -98,7 +104,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchDashboardData();
+    fetchDashboardData(true);
 
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
@@ -121,7 +127,7 @@ const Dashboard = () => {
 
   const handleModalSubmit = async () => {
     if (selectedEmotion === null) {
-      alert('오늘의 기분을 선택해 주세요!');
+      alert('기분을 선택해 주세요!');
       return;
     }
 
@@ -132,21 +138,29 @@ const Dashboard = () => {
         memo: memo
       };
 
-      if (modalType === 'IN') {
+      if (modalType === 'START') {
+        await startCoolDown(payload);
+        setCoolDown(true, Date.now());
+      }
+      else if (modalType === 'END') {
+        await startCoolDown(payload);
+        await fetchDashboardData(true);
+      }
+      else if (modalType === 'IN') {
         await apiClient.post('/employee/dashboard/status/clock-in', payload);
-      } else {
+        await fetchDashboardData(true);
+        alert('출근 처리가 완료되었습니다.');
+      }
+      else if (modalType === 'OUT') {
         await apiClient.post('/employee/dashboard/status/clock-out', payload);
+        await fetchDashboardData(true);
+        alert('퇴근 처리가 완료되었습니다.');
       }
 
-      // 데이터 갱신
-      await fetchDashboardData();
       setIsEmotionModalOpen(false);
-
-      const message = modalType === 'IN' ? '출근 처리가 완료되었습니다. 오늘도 화이팅하세요!' : '퇴근 처리가 완료되었습니다. 오늘 하루도 고생 많으셨습니다!';
-      alert(message);
     } catch (error) {
-      console.error('Status update failed:', error);
-      alert('상태 변경에 실패했습니다.');
+      console.error('실패:', error);
+      alert('처리에 실패했습니다.');
     }
   };
 
@@ -154,18 +168,23 @@ const Dashboard = () => {
 
   const handleCoolDown = () => {
     if (isCoolDown) {
-      // Manual Stop -> WORKING
-      updateStatus('WORKING');
+      if (window.confirm("쿨다운을 중단하시겠습니까?")) {
+        updateStatus('WORKING');
+        setCoolDown(false, coolDownStartTime);
+      }
     } else {
-      // Start -> COOLDOWN
-      updateStatus('COOLDOWN');
+      setModalType('START');
+      setSelectedEmotion(null);
+      setSelectedFactors([]);
+      setMemo('');
+      setIsEmotionModalOpen(true);
     }
   };
 
   const updateStatus = async (status) => {
     try {
       await apiClient.post('/employee/dashboard/status', { status });
-      await fetchDashboardData();
+      await fetchDashboardData(true);
     } catch (error) {
       console.error('Failed to update status:', error);
       alert('상태 변경에 실패했습니다.');
@@ -173,7 +192,7 @@ const Dashboard = () => {
   };
 
   const startCooldown = () => {
-    // Deprecated: APIs handle state
+    // Deprecated: APIs handle stateF
   };
 
   const stopCooldown = () => {
@@ -181,29 +200,34 @@ const Dashboard = () => {
     setTimeLeft(0);
   };
 
-  // Cooldown Timer Logic
   useEffect(() => {
     let interval;
 
-    if (isCoolDown && coolDownStartTime) {
-      // Calculate initial remaining time
-      const calculateRemaining = () => {
-        const elapsed = Math.floor((Date.now() - coolDownStartTime) / 1000);
-        const remaining = 600 - elapsed; // 600 seconds = 10 minutes
-        return remaining > 0 ? remaining : 0;
-      };
-
-      setTimeLeft(calculateRemaining());
-
-      interval = setInterval(() => {
-        const remaining = calculateRemaining();
-        setTimeLeft(remaining);
+    if (coolDownStartTime) {
+      const checkTimer = () => {
+        const now = Date.now();
+        const start = new Date(coolDownStartTime).getTime();
+        const elapsed = Math.floor((now - start) / 1000);
+        const remaining = 5 - elapsed; // 테스트를 위해 30초 설정
 
         if (remaining <= 0) {
-          setCoolDown(false);
           clearInterval(interval);
+          setTimeLeft(0);
+
+          setCoolDown(false, null);
+
+          setModalType('END');
+          setSelectedEmotion(null);
+          setSelectedFactors([]);
+          setMemo('');
+          setIsEmotionModalOpen(true);
+        } else {
+          setTimeLeft(remaining);
         }
-      }, 1000);
+      };
+
+      checkTimer();
+      interval = setInterval(checkTimer, 1000);
     } else {
       setTimeLeft(0);
     }
@@ -211,7 +235,7 @@ const Dashboard = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isCoolDown, coolDownStartTime, setCoolDown]);
+  }, [coolDownStartTime, setCoolDown]);
 
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60);
@@ -462,7 +486,7 @@ const Dashboard = () => {
                 $type={modalType}
               >
                 <Send size={20} />
-                {modalType === 'IN' ? '출근 완료' : '퇴근 완료'}
+                {modalType === 'IN' ? '출근 완료' : modalType === 'OUT' ? '퇴근 완료' : '쿨다운 체크인'}
               </S.SubmitModalButton>
             </S.ModalBody>
           </S.ModalContent>
