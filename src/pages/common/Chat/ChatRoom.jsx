@@ -228,6 +228,13 @@ const ChatRoom = ({ isDark }) => {
 
         try {
             await axios.patch(`/chat/message/${editingMessageId}`, { content: editContent });
+
+            // 로컬 상태 즉시 업데이트 (Optimistic UI)
+            useStore.getState().chat.updateMessageInList({
+                id: editingMessageId,
+                content: editContent
+            });
+
             setEditingMessageId(null);
             setEditContent('');
         } catch (error) {
@@ -241,6 +248,13 @@ const ChatRoom = ({ isDark }) => {
 
         try {
             await axios.delete(`/chat/message/${messageId}`);
+
+            // 로컬 상태 즉시 업데이트 (Optimistic UI)
+            useStore.getState().chat.updateMessageInList({
+                id: messageId,
+                content: "삭제된 메시지입니다.",
+                isDeleted: true
+            });
         } catch (error) {
             console.error('Failed to delete message:', error);
             alert('메시지 삭제에 실패했습니다.');
