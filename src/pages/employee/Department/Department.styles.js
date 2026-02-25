@@ -218,18 +218,6 @@ export const DropdownItem = styled.li`
   `}
 `;
 
-export const ExcelButton = styled.button`
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 700;
-  background-color: #2563eb;
-  color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(219, 234, 254, 1);
-  transition: all 0.2s;
-
-  &:hover { background-color: #1d4ed8; }
-`;
 
 export const MemberList = styled.div`
   display: flex;

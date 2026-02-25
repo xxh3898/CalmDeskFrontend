@@ -8,9 +8,6 @@ import {
   Zap,
   Activity,
   HeartPulse,
-  History,
-  MessageCircle,
-  ExternalLink,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -34,20 +31,7 @@ const LEGEND_ITEMS = [
   { label: "휴가/휴가예정", bg: "rgba(167, 139, 250, 0.2)" },
 ];
 
-const MOCK_HISTORY = [
-  {
-    title: "심층 심리 상담 완료",
-    date: "2026.01.20",
-    type: "Consultation",
-    icon: <MessageCircle size={18} />,
-  },
-  {
-    title: "반차 휴가 사용",
-    date: "2026.01.14",
-    type: "Leave",
-    icon: <Palmtree size={18} />,
-  },
-];
+
 
 export default function MemberDetailModal({ member, onClose }) {
   const now = new Date();
@@ -327,28 +311,7 @@ export default function MemberDetailModal({ member, onClose }) {
                 </S.WellnessItem>
               </S.WellnessSection>
 
-              <S.WellnessSection>
-                <S.SectionTitle>
-                  <History size={16} color="#818cf8" />
-                  최근 인사 활동 이력
-                </S.SectionTitle>
-                <S.HistoryList>
-                  {MOCK_HISTORY.map((item, idx) => (
-                    <S.HistoryItem key={idx}>
-                      <S.HistoryContent>
-                        <S.HistoryIcon>{item.icon}</S.HistoryIcon>
-                        <S.HistoryText>
-                          <p>{item.title}</p>
-                          <p>
-                            {item.date} • {item.type}
-                          </p>
-                        </S.HistoryText>
-                      </S.HistoryContent>
-                      <ExternalLink size={12} color="#475569" />
-                    </S.HistoryItem>
-                  ))}
-                </S.HistoryList>
-              </S.WellnessSection>
+
             </S.RightColumn>
           </S.ContentGrid>
         </S.DetailContent>

@@ -184,7 +184,6 @@ const Department = () => {
                 </S.DropdownMenu>
               )}
             </S.DropdownWrapper>
-            <S.ExcelButton>엑셀 다운로드</S.ExcelButton>
           </S.Controls>
         </S.FilterHeader>
 

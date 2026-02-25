@@ -35,7 +35,7 @@ const AdminApplications = () => {
   const [error, setError] = useState(null);
   const [listPage, setListPage] = useState(0);
 
-  const LIST_PAGE_SIZE = 10;
+  const LIST_PAGE_SIZE = 6;
 
   const fetchLeaves = useCallback(async () => {
     try {

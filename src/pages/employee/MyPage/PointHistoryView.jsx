@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
-  Download,
-  Filter,
   CreditCard,
   PlusCircle,
   MinusCircle
@@ -149,24 +147,7 @@ const PointHistoryView = () => {
             <p>포인트 적립 및 사용 내역을 확인하세요.</p>
           </S.SubTitleGroup>
         </S.HeaderLeft>
-        <button
-          type="button"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.5rem 1rem',
-            border: '1px solid #e2e8f0',
-            borderRadius: '0.75rem',
-            fontSize: '0.75rem',
-            fontWeight: 700,
-            color: '#475569',
-            backgroundColor: 'white',
-          }}
-        >
-          <Download size={14} />
-          내역 다운로드
-        </button>
+
       </S.SubPageHeader>
 
       {error && (
@@ -225,9 +206,7 @@ const PointHistoryView = () => {
               사용
             </S.TabButton>
           </S.FilterTabs>
-          <button type="button" style={{ padding: '0.5rem', color: '#94a3b8' }}>
-            <Filter size={16} />
-          </button>
+
         </S.HistoryHeader>
 
         <S.HistoryList>
