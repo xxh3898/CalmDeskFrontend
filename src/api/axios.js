@@ -3,8 +3,18 @@ import { tokenManager } from "../utils/tokenManager";
 import { refreshAccessToken } from "./authApi";
 import { API_URL } from "../Config";
 
+const getBaseURL = () => {
+  if (typeof API_URL !== 'undefined' && API_URL) return `${API_URL}/api`;
+
+  // 만약 API_URL이 아직 정의되지 않았다면 현재 도메인 기반으로 즉석 생성
+  if (window.location.hostname === "calmdesk.cloud" || window.location.hostname === "www.calmdesk.cloud") {
+    return "https://api.calmdesk.cloud/api";
+  }
+  return "http://localhost:8080/api";
+};
+
 const apiClient = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: getBaseURL(),
   headers: {
     "Content-Type": "application/json",
   },
