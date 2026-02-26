@@ -24,6 +24,7 @@ import { NavItemType } from "../constants/types";
 import Logo from "./Logo";
 import useStore from "../store/useStore"; // 스토어 임포트 위치 확인
 import axios from "../api/axios";
+import { API_URL } from "../Config";
 import * as S from "./Header.styles";
 
 // --- 1. 전체 알림 모달 컴포넌트 ---
@@ -185,10 +186,18 @@ const Header = () => {
     // 1. 초기 데이터 가져오기
     fetchNotifications(memberId);
 
+    // SAFE API_URL resolve
+    const SAFE_API_URL = typeof API_URL !== 'undefined' && API_URL
+      ? API_URL
+      : (window.location.hostname === "calmdesk.cloud" || window.location.hostname === "www.calmdesk.cloud"
+        ? "https://api.calmdesk.cloud"
+        : "http://localhost:8080");
+
     // 2. SSE 연결
     const eventSource = new EventSource(
-      `http://localhost:8080/subscribe/${memberId}`
+      `${SAFE_API_URL}/subscribe/${memberId}`
     );
+
 
     // Header.jsx 내 SSE 수신 부분
     // console.log(`${memberId}번 유저 SSE 구독 시작`);

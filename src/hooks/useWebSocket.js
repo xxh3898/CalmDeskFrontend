@@ -37,7 +37,17 @@ const useWebSocket = () => {
             return;
         }
 
-        const brokerURL = API_URL.replace('http', 'ws') + '/ws-stomp';
+        // SAFE API_URL resolve
+        const SAFE_API_URL = typeof API_URL !== 'undefined' && API_URL
+            ? API_URL
+            : (window.location.hostname === "calmdesk.cloud" || window.location.hostname === "www.calmdesk.cloud"
+                ? "https://api.calmdesk.cloud"
+                : "http://localhost:8080");
+
+        const brokerURL = SAFE_API_URL.startsWith('https')
+            ? SAFE_API_URL.replace('https', 'wss') + '/ws-stomp'
+            : SAFE_API_URL.replace('http', 'ws') + '/ws-stomp';
+
 
         const client = new Client({
             brokerURL: brokerURL,
