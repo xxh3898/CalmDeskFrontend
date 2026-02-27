@@ -1,7 +1,7 @@
 import React from "react";
 import { ChevronLeft, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import * as S from "../Signup.style";
+import * as S from "../Signup.style.js";
 
 const BasicInfo = ({ formData, onChange, onNext }) => {
   const navigate = useNavigate();

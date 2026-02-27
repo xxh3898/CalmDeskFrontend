@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useStore from "../../../store/useStore";
-import StressGauge from "../../../components/StressGauge";
-import WeeklyChart from "../../../components/WeeklyChart";
-import apiClient from "../../../api/axios";
-import { startCoolDown } from "../../../api/dashboardApi";
+import useStore from "../../../store/useStore.js";
+import StressGauge from "../../../components/StressGauge.jsx";
+import WeeklyChart from "../../../components/WeeklyChart.jsx";
+import apiClient from "../../../api/axios.js";
+import { startCoolDown } from "../../../api/dashboardApi.js";
 import {
   Play,
   Coffee,
@@ -23,7 +23,7 @@ import {
   Pause,
 } from "lucide-react";
 
-import * as S from "./Dashboard.styles";
+import * as S from "./Dashboard.styles.js";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -288,20 +288,20 @@ const Dashboard = () => {
                   isCoolDown
                     ? "cooldown"
                     : isAway
-                    ? "away"
-                    : isClockedIn
-                    ? "working"
-                    : "ready"
+                      ? "away"
+                      : isClockedIn
+                        ? "working"
+                        : "ready"
                 }
               >
                 {isCoolDown
                   ? "쿨다운"
                   : isAway
-                  ? "자리비움"
-                  : isClockedIn
-                  ? "업무 중"
-                  : dashboardData.attendanceStats.currentStatus ||
-                    "업무 준비 중"}
+                    ? "자리비움"
+                    : isClockedIn
+                      ? "업무 중"
+                      : dashboardData.attendanceStats.currentStatus ||
+                      "업무 준비 중"}
               </S.StatusBadge>
             </p>
           </S.GreetingText>
@@ -316,8 +316,8 @@ const Dashboard = () => {
             {dashboardData.attendanceStats.currentStatus === "퇴근"
               ? "퇴근 완료"
               : isClockedIn
-              ? "퇴근하기"
-              : "출근하기"}
+                ? "퇴근하기"
+                : "출근하기"}
           </S.ActionButton>
 
           <S.ActionButton
@@ -422,11 +422,10 @@ const Dashboard = () => {
             </S.StatValue>
             <S.ProgressBar>
               <S.ProgressFill
-                $width={`${
-                  (dashboardData.vacationStats.usedDays /
+                $width={`${(dashboardData.vacationStats.usedDays /
                     dashboardData.vacationStats.totalDays) *
                   100
-                }%`}
+                  }%`}
               />
             </S.ProgressBar>
             <S.StatSubtext>
@@ -596,8 +595,8 @@ const Dashboard = () => {
                 {modalType === "IN"
                   ? "출근 완료"
                   : modalType === "OUT"
-                  ? "퇴근 완료"
-                  : "쿨다운 체크인"}
+                    ? "퇴근 완료"
+                    : "쿨다운 체크인"}
               </S.SubmitModalButton>
             </S.ModalBody>
           </S.ModalContent>

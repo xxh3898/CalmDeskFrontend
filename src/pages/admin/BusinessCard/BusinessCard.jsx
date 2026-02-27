@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Upload, Loader2, AlertCircle } from 'lucide-react';
-import * as S from './BusinessCard.styles';
-import { extractBusinessCard, registerBusinessCard, getBusinessCardContacts } from '../../../api/businessCardApi';
-import { teamApi } from '../../../api/teamApi';
-import { applicationsApi } from '../../../api/applicationsApi';
+import * as S from './BusinessCard.styles.js';
+import { extractBusinessCard, registerBusinessCard, getBusinessCardContacts } from '../../../api/businessCardApi.js';
+import { teamApi } from '../../../api/teamApi.js';
+import { applicationsApi } from '../../../api/applicationsApi.js';
 
 const BusinessCard = () => {
   const [file, setFile] = useState(null);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Users, AlertTriangle, Activity } from 'lucide-react';
-import * as S from '../TeamManagement.styles';
+import * as S from '../TeamManagement.styles.js';
 
 export default function SummaryCards({ stats }) {
   return (

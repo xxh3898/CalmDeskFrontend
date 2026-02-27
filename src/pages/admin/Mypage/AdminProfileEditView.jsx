@@ -9,9 +9,9 @@ import {
   Save,
   Calendar
 } from 'lucide-react';
-import * as S from './MyPage.styles';
-import useStore from '../../../store/useStore';
-import { adminMypageApi } from '../../../api/mypageApi';
+import * as S from './MyPage.styles.js';
+import useStore from '../../../store/useStore.js';
+import { adminMypageApi } from '../../../api/mypageApi.js';
 
 const AdminProfileEditView = () => {
   const { user } = useStore();
@@ -29,7 +29,7 @@ const AdminProfileEditView = () => {
 
   useEffect(() => {
     if (!adminMemberId) return;
-    
+
     const fetchProfile = async () => {
       try {
         const response = await adminMypageApi.getProfile(adminMemberId);
@@ -59,7 +59,7 @@ const AdminProfileEditView = () => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      
+
       // 프로필 수정
       if (email || phone || joinDate !== undefined) {
         await adminMypageApi.updateProfile(adminMemberId, {
@@ -128,9 +128,9 @@ const AdminProfileEditView = () => {
               <label>연락처</label>
               <S.InputWrapper active>
                 <Phone />
-                <input 
-                  type="text" 
-                  value={phone} 
+                <input
+                  type="text"
+                  value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder={adminInfo.phone}
                 />
@@ -140,9 +140,9 @@ const AdminProfileEditView = () => {
               <label>이메일</label>
               <S.InputWrapper active>
                 <Mail />
-                <input 
-                  type="email" 
-                  value={email} 
+                <input
+                  type="email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={adminInfo.email}
                 />
@@ -152,8 +152,8 @@ const AdminProfileEditView = () => {
               <label>입사일</label>
               <S.InputWrapper active>
                 <Calendar size={18} color="#64748b" style={{ flexShrink: 0 }} />
-                <input 
-                  type="date" 
+                <input
+                  type="date"
                   value={joinDate}
                   onChange={(e) => setJoinDate(e.target.value)}
                   style={{ paddingLeft: '0.5rem' }}

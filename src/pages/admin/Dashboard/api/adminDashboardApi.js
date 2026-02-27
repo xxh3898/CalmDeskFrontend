@@ -1,4 +1,4 @@
-import apiClient from "../../../../api/axios";
+import apiClient from "../../../../api/axios.js";
 
 export const getDashboardStats = async () => {
   try {

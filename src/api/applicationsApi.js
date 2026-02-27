@@ -1,4 +1,4 @@
-import apiClient from "./axios";
+import apiClient from "./axios.js";
 
 export const applicationsApi = {
   /** 관리자: 회사 전체 휴가 신청 목록 (백엔드: GET /api/admin/vacation) */
@@ -55,7 +55,7 @@ export const applicationsApi = {
     await apiClient.put(`/admin/joins/${memberId}/reject`);
   },
 
-    /** 직급 목록 (명함 입사 신청 시 선택용) */
+  /** 직급 목록 (명함 입사 신청 시 선택용) */
   getRanks: async () => {
     const response = await apiClient.get('/admin/joins/ranks');
     return response.data;

@@ -13,9 +13,9 @@ import {
   Copy,
   Check
 } from 'lucide-react';
-import * as S from './MyPage.styles';
-import useStore from '../../../store/useStore';
-import { adminMypageApi } from '../../../api/mypageApi';
+import * as S from './MyPage.styles.js';
+import useStore from '../../../store/useStore.js';
+import { adminMypageApi } from '../../../api/mypageApi.js';
 
 const AdminMyPageMain = () => {
   const { user } = useStore();
@@ -29,7 +29,7 @@ const AdminMyPageMain = () => {
 
   useEffect(() => {
     if (!adminMemberId) return;
-    
+
     const fetchProfile = async () => {
       try {
         setLoading(true);

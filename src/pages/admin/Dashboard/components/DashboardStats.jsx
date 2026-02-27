@@ -1,6 +1,6 @@
 import React from "react";
 import { Activity, CalendarCheck, MessageSquare, FileText } from "lucide-react";
-import * as S from "../Dashboard.styles";
+import * as S from "../Dashboard.styles.js";
 
 const DashboardStats = ({ companyStats, yesterdayStats }) => {
   // 변화율 계산 함수 (포인트 차이)
@@ -12,16 +12,16 @@ const DashboardStats = ({ companyStats, yesterdayStats }) => {
 
   const stressChange = yesterdayStats
     ? calculateChange(
-        companyStats.avgStressPercentage,
-        yesterdayStats.avgStressPercentage
-      )
+      companyStats.avgStressPercentage,
+      yesterdayStats.avgStressPercentage
+    )
     : 0;
 
   const attendanceChange = yesterdayStats
     ? calculateChange(
-        companyStats.todayAttendance,
-        yesterdayStats.todayAttendance
-      )
+      companyStats.todayAttendance,
+      yesterdayStats.todayAttendance
+    )
     : 0;
 
   const stats = [
@@ -49,8 +49,8 @@ const DashboardStats = ({ companyStats, yesterdayStats }) => {
         attendanceChange > 0
           ? "good"
           : attendanceChange < 0
-          ? "danger"
-          : "neutral",
+            ? "danger"
+            : "neutral",
       yesterdayVal: yesterdayStats
         ? `전날: ${yesterdayStats.todayAttendance}%`
         : null,

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { API_URL } from '../Config';
-import apiClient from './axios';
-import { tokenManager } from '../utils/tokenManager';
+import { API_URL } from '../Config.jsx';
+import apiClient from './axios.js';
+import { tokenManager } from '../utils/tokenManager.js';
 
 /**
  * 명함 이미지 추출 (multipart, 인증 필요)

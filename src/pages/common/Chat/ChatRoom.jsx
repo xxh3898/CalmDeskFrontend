@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import useStore from '../../../store/useStore';
-import { ChatArea, MessageList, MessageBubble, InputArea, DateSeparator, UnreadCount, MessageRow, MessageGroup, MessageActionsMenu } from './Chat.styles';
-import axios from '../../../api/axios';
+import useStore from '../../../store/useStore.js';
+import { ChatArea, MessageList, MessageBubble, InputArea, DateSeparator, UnreadCount, MessageRow, MessageGroup, MessageActionsMenu } from './Chat.styles.js';
+import axios from '../../../api/axios.js';
 import { Pencil, Trash2 } from 'lucide-react';
 
 const ChatRoom = ({ isDark }) => {

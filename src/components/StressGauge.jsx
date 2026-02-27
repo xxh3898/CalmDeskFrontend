@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './StressGauge.styles';
+import * as S from './StressGauge.styles.js';
 
 const StressGauge = ({ percentage }) => {
   const radius = 60;

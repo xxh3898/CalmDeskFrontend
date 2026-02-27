@@ -1,4 +1,4 @@
-import { decodeToken } from "./jwtUtils";
+import { decodeToken } from "./jwtUtils.js";
 
 let accessToken = null;
 let tokenExp = null;

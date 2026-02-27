@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import AdminMyPageMain from './AdminMyPageMain';
-import AdminProfileEditView from './AdminProfileEditView';
+import AdminMyPageMain from './AdminMyPageMain.jsx';
+import AdminProfileEditView from './AdminProfileEditView.jsx';
 
 const AdminMyPage = () => {
   return (

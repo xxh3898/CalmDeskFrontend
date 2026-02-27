@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { teamApi } from '../../../../api/teamApi';
-import { mapApiToMemberCard } from '../constants';
+import { teamApi } from '../../../../api/teamApi.js';
+import { mapApiToMemberCard } from '../constants.js';
 
 export function useTeamMembers() {
   const [teamMembers, setTeamMembers] = useState([]);

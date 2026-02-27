@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import useStore from "./store/useStore";
+import useStore from "./store/useStore.js";
 import {
   Routes,
   Route,
@@ -7,41 +7,41 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout/MainLayout";
+import MainLayout from "./layouts/MainLayout/MainLayout.jsx";
 
 // 관리자 페이지
-import AdminDashboard from "./pages/admin/Dashboard/Dashboard";
-import AdminGifticonManagement from "./pages/admin/GifticonManagement/GifticonManagement";
-import PurchaseHistory from "./pages/admin/GifticonManagement/PurchaseHistory/PurchaseHistory";
-import Monitoring from "./pages/admin/Monitoring/Monitoring";
-import AdminMyPage from "./pages/admin/Mypage/MyPage";
-import AdminApplications from "./pages/admin/Applications/Applications";
-import AdminTeamManagement from "./pages/admin/TeamManagement/TeamManagement";
+import AdminDashboard from "./pages/admin/Dashboard/Dashboard.jsx";
+import AdminGifticonManagement from "./pages/admin/GifticonManagement/GifticonManagement.jsx";
+import PurchaseHistory from "./pages/admin/GifticonManagement/PurchaseHistory/PurchaseHistory.jsx";
+import Monitoring from "./pages/admin/Monitoring/Monitoring.jsx";
+import AdminMyPage from "./pages/admin/Mypage/MyPage.jsx";
+import AdminApplications from "./pages/admin/Applications/Applications.jsx";
+import AdminTeamManagement from "./pages/admin/TeamManagement/TeamManagement.jsx";
 
 // 공통 페이지 (Common Pages)
-import LandingPage from "./pages/common/Landing/Landing";
-import FeatureDetails from "./pages/common/FeatureDetails/FeatureDetails";
-import NotFound from "./pages/common/NotFound/NotFound";
-import ChatPage from "./pages/common/Chat/ChatPage";
+import LandingPage from "./pages/common/Landing/Landing.jsx";
+import FeatureDetails from "./pages/common/FeatureDetails/FeatureDetails.jsx";
+import NotFound from "./pages/common/NotFound/NotFound.jsx";
+import ChatPage from "./pages/common/Chat/ChatPage.jsx";
 
 // 인증 페이지 (Auth Pages)
-import AuthPage from "./pages/auth/Login/Login";
+import AuthPage from "./pages/auth/Login/Login.jsx";
 
 // 직원 페이지 (Employee Pages)
-import MyPage from "./pages/employee/MyPage/MyPage";
-import Department from "./pages/employee/Department/Department";
-import Attendance from "./pages/employee/Attendance/Attendance";
-import Consultation from "./pages/employee/Consultation/Consultation";
-import Dashboard from "./pages/employee/Dashboard/Dashboard";
-import PointMall from "./pages/employee/PointMall/PointMall";
-import CallRecords from "./pages/employee/CallRecords/CallRecords";
-import Call from "./pages/employee/Call/Call";
+import MyPage from "./pages/employee/MyPage/MyPage.jsx";
+import Department from "./pages/employee/Department/Department.jsx";
+import Attendance from "./pages/employee/Attendance/Attendance.jsx";
+import Consultation from "./pages/employee/Consultation/Consultation.jsx";
+import Dashboard from "./pages/employee/Dashboard/Dashboard.jsx";
+import PointMall from "./pages/employee/PointMall/PointMall.jsx";
+import CallRecords from "./pages/employee/CallRecords/CallRecords.jsx";
+import Call from "./pages/employee/Call/Call.jsx";
 
 import { ShieldAlert, Clock } from "lucide-react";
-import * as S from "./App.styles";
-import { tokenManager } from "./utils/tokenManager";
-import { refreshAccessToken } from "./api/authApi";
-import { decodeToken } from "./utils/jwtUtils";
+import * as S from "./App.styles.js";
+import { tokenManager } from "./utils/tokenManager.js";
+import { refreshAccessToken } from "./api/authApi.js";
+import { decodeToken } from "./utils/jwtUtils.js";
 
 const ProtectedRoute = ({ children }) => {
   const { user, isInitializing } = useStore();
@@ -171,7 +171,7 @@ function App() {
                         path="teammanagement"
                         element={<AdminTeamManagement />}
                       />
-                       {console.log("isAdminMode:", isAdminMode)}
+                      {console.log("isAdminMode:", isAdminMode)}
                       <Route path="monitoring" element={<Monitoring />} />
                       <Route
                         path="gifticons"

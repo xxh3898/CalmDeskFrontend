@@ -1,6 +1,6 @@
 import React from 'react';
 import logoSrc from '../assets/Logo.png';
-import * as S from './Logo.styles';
+import * as S from './Logo.styles.js';
 
 const Logo = ({
   className = "",

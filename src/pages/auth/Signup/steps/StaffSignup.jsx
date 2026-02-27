@@ -8,7 +8,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import * as S from "../Signup.style";
+import * as S from "../Signup.style.js";
 
 const StaffSignup = ({
   formData,

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ShoppingBag, Search, Calendar, User, ChevronLeft, ChevronRight } from 'lucide-react'; // 아이콘 추가
 import { useNavigate } from 'react-router-dom';
-import useStore from '../../../../store/useStore';
-import * as S from './PurchaseHistory.styles';
+import useStore from '../../../../store/useStore.js';
+import * as S from './PurchaseHistory.styles.js';
 
 const PurchaseHistory = () => {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ const PurchaseHistory = () => {
 
     // 컴포넌트 마운트 시 0페이지 로드
     useEffect(() => {
-        fetchAllPurchaseHistory(); 
+        fetchAllPurchaseHistory();
     }, [fetchAllPurchaseHistory]);
 
     // 페이지 변경 핸들러
@@ -26,13 +26,13 @@ const PurchaseHistory = () => {
     // 필터링 로직 (현재 페이지의 데이터 내에서 필터링)
     const filteredHistory = useMemo(() => {
         return purchaseHistory.filter(purchase => {
-            const matchesSearch = 
+            const matchesSearch =
                 purchase.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 purchase.itemName.toLowerCase().includes(searchTerm.toLowerCase());
-            
-            const matchesDate = filterDate === '' || 
+
+            const matchesDate = filterDate === '' ||
                 purchase.purchaseDate.startsWith(filterDate);
-            
+
             return matchesSearch && matchesDate;
         });
     }, [purchaseHistory, searchTerm, filterDate]);
@@ -112,18 +112,18 @@ const PurchaseHistory = () => {
 
                         {/* 페이지네이션 UI 추가 */}
                         <S.Pagination>
-                            <S.PageButton 
+                            <S.PageButton
                                 onClick={() => handlePageChange(purchasePagination.currentPage - 1)}
                                 disabled={purchasePagination.currentPage === 0}
                             >
                                 <ChevronLeft size={20} />
                             </S.PageButton>
-                            
+
                             <S.PageNumber>
                                 <strong>{purchasePagination.currentPage + 1}</strong> / {purchasePagination.totalPages}
                             </S.PageNumber>
 
-                            <S.PageButton 
+                            <S.PageButton
                                 onClick={() => handlePageChange(purchasePagination.currentPage + 1)}
                                 disabled={purchasePagination.currentPage === purchasePagination.totalPages - 1}
                             >

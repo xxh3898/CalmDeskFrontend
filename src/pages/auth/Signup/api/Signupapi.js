@@ -1,6 +1,6 @@
 import axios from "axios";
-import { API_URL } from "../../../../Config";
-import apiClient from "../../../../api/axios";
+import { API_URL } from "../../../../Config.jsx";
+import apiClient from "../../../../api/axios.js";
 
 /** 회원가입 시 명함 이미지 추출 (비로그인 허용) */
 export const extractBusinessCard = async (file) => {

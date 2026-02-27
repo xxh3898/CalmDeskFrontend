@@ -10,8 +10,8 @@ import {
     CalendarCheck,
     MessageSquare
 } from 'lucide-react';
-import Logo from '../../../components/Logo';
-import * as S from './FeatureDetails.styles';
+import Logo from '../../../components/Logo.jsx';
+import * as S from './FeatureDetails.styles.js';
 
 const FeatureDetails = ({ onBack, onStart }) => {
     return (

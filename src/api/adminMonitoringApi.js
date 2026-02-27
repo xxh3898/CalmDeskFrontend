@@ -1,4 +1,4 @@
-import apiClient from './axios';
+import apiClient from './axios.js';
 
 // 관리자 모니터링 데이터 조회
 export const fetchMonitoringData = async (period = 'current', year = null) => {

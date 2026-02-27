@@ -20,12 +20,12 @@ import {
   MessageCircle,
   Phone,
 } from "lucide-react";
-import { NavItemType } from "../constants/types";
-import Logo from "./Logo";
-import useStore from "../store/useStore"; // 스토어 임포트 위치 확인
-import axios from "../api/axios";
-import { API_URL } from "../Config";
-import * as S from "./Header.styles";
+import { NavItemType } from "../constants/types.js";
+import Logo from "./Logo.jsx";
+import useStore from "../store/useStore.js"; // 스토어 임포트 위치 확인
+import axios from "../api/axios.js";
+import { API_URL } from "../Config.jsx";
+import * as S from "./Header.styles.js";
 
 // --- 1. 전체 알림 모달 컴포넌트 ---
 const AllNotificationsModal = ({ onClose }) => {

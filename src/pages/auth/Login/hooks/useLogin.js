@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/loginApi";
-import { decodeToken } from "../../../../utils/jwtUtils";
-import { tokenManager } from "../../../../utils/tokenManager";
+import { login } from "../api/localLoginApi.js";
+import { decodeToken } from "../../../../utils/jwtUtils.js";
+import { tokenManager } from "../../../../utils/tokenManager.js";
 
 export const useLogin = (onLogin) => {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export const useLogin = (onLogin) => {
           companyName: response.companyName,
           departmentName: response.departmentName,
           department: response.departmentName,
-          companyId : response.companyId,
+          companyId: response.companyId,
           departmentId: response.departmentId,
           phone: response.phone,
           // token: response.token,

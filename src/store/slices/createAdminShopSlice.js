@@ -1,5 +1,5 @@
 
-import apiClient from "../../api/axios";
+import apiClient from "../../api/axios.js";
 
 // const API_URL = '/api/admin/shop'; // 백엔드 API 기본 주소
 let pending = {};

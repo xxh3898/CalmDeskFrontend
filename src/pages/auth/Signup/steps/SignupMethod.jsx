@@ -1,7 +1,7 @@
 import React from "react";
 import { ChevronLeft, FileText, PenLine } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import * as S from "../Signup.style";
+import * as S from "../Signup.style.js";
 
 const SignupMethod = ({ onSelect }) => {
   const [searchParams, setSearchParams] = useSearchParams();

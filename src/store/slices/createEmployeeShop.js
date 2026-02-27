@@ -1,5 +1,5 @@
 
-import apiClient from "../../api/axios";
+import apiClient from "../../api/axios.js";
 
 // const getAuthHeader = () => {
 //   const token = localStorage.getItem("authToken");

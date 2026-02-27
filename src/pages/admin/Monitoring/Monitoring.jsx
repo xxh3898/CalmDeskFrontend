@@ -27,8 +27,8 @@ import {
   PieChart,
   Pie
 } from 'recharts';
-import * as S from './Monitoring.styles';
-import { fetchMonitoringData, downloadMonitoringExcel } from '../../../api/adminMonitoringApi';
+import * as S from './Monitoring.styles.js';
+import { fetchMonitoringData, downloadMonitoringExcel } from '../../../api/adminMonitoringApi.js';
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {

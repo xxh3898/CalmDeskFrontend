@@ -1,11 +1,11 @@
 import React from "react";
-import { useSignup } from "./hooks/useSignup";
-import BasicInfo from "./steps/BasicInfo";
-import SignupType from "./steps/SignupType";
-import AdminSignup from "./steps/AdminSignup";
-import StaffSignup from "./steps/StaffSignup";
-import SignupMethod from "./steps/SignupMethod";
-import BusinessCardUpload from "./steps/BusinessCardUpload";
+import { useSignup } from "./hooks/useSignup.js";
+import BasicInfo from "./steps/BasicInfo.jsx";
+import SignupType from "./steps/SignupType.jsx";
+import AdminSignup from "./steps/AdminSignup.jsx";
+import StaffSignup from "./steps/StaffSignup.jsx";
+import SignupMethod from "./steps/SignupMethod.jsx";
+import BusinessCardUpload from "./steps/BusinessCardUpload.jsx";
 
 const SignupContainer = ({ onLogin }) => {
   const {

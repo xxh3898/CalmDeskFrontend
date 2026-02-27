@@ -8,10 +8,10 @@ import {
   CheckCircle2,
   ChevronLeft,
 } from "lucide-react";
-import * as S from "./Login.styles";
-import SignupContainer from "../Signup/SignupContainer";
-import useStore from "../../../store/useStore";
-import { useLogin } from "./hooks/useLogin";
+import * as S from "./Login.styles.js";
+import SignupContainer from "../Signup/SignupContainer.jsx";
+import useStore from "../../../store/useStore.js";
+import { useLogin } from "./hooks/useLogin.js";
 
 const AuthPage = () => {
   const login = useStore((state) => state.login);

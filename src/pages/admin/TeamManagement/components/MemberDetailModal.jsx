@@ -11,8 +11,8 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import * as S from "../TeamManagement.styles";
-import { teamApi } from "../../../../api/teamApi";
+import * as S from "../TeamManagement.styles.js";
+import { teamApi } from "../../../../api/teamApi.js";
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 

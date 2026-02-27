@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
-import * as S from './PointMall.styles';
-import useStore from '../../../store/useStore';
+import * as S from './PointMall.styles.js';
+import useStore from '../../../store/useStore.js';
 
 const ShopSection = ({ refreshData }) => {
     // 💡 mallData에서 shopItems를 가져오고, fetchPointMallData를 사용하도록 수정
@@ -22,7 +22,7 @@ const ShopSection = ({ refreshData }) => {
             // 💡 하드코딩된 6 대신 user.id 사용
             await addPurchaseHistory(
                 item.id,
-                user.id, 
+                user.id,
                 user.name,
                 item.name,
                 item.price,
@@ -34,9 +34,9 @@ const ShopSection = ({ refreshData }) => {
             console.log(refreshData);
             // 부모 컴포넌트(PointMall)의 포인트 정보를 최신화
             if (refreshData) {
-                await refreshData(user.id); 
+                await refreshData(user.id);
             }
-           
+
         } catch (error) {
             // 백엔드에서 온 에러 메시지 처리 (예: 포인트 부족)
             const errorMsg = error.response?.data?.message || "구매에 실패했습니다.";
@@ -44,12 +44,12 @@ const ShopSection = ({ refreshData }) => {
         }
     };
 
-    const filteredItems = shopItems.filter(item => 
+    const filteredItems = shopItems.filter(item =>
         item.active && item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
-      <S.ShopContainer>
+        <S.ShopContainer>
             <S.SearchBar>
                 <S.SearchInputWrapper>
                     <Search />

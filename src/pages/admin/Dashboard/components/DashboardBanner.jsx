@@ -1,7 +1,7 @@
 // src/pages/admin/Dashboard/components/DashboardBanner.jsx
 import React from "react";
 import { ShieldAlert, Activity } from "lucide-react";
-import * as S from "../Dashboard.styles";
+import * as S from "../Dashboard.styles.js";
 
 const DashboardBanner = ({ companyStats }) => {
   return (

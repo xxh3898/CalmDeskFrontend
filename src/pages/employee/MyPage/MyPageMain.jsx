@@ -11,9 +11,9 @@ import {
   Calendar,
   CreditCard
 } from 'lucide-react';
-import * as S from './MyPage.styles';
-import useStore from '../../../store/useStore';
-import { mypageApi } from '../../../api/mypageApi';
+import * as S from './MyPage.styles.js';
+import useStore from '../../../store/useStore.js';
+import { mypageApi } from '../../../api/mypageApi.js';
 
 const MyPageMain = () => {
   const { user } = useStore();
@@ -32,7 +32,7 @@ const MyPageMain = () => {
     const id = typeof user.id === 'string' ? parseInt(user.id, 10) : Number(user.id);
     return isNaN(id) ? 1 : id; // NaN 체크
   };
-  
+
   const memberId = getMemberId();
 
   useEffect(() => {
@@ -177,8 +177,8 @@ const MyPageMain = () => {
                 <h3>
                   <Heart size={20} color={
                     stress?.level === 'CRITICAL' ? '#dc2626' :
-                    stress?.level === 'HIGH' ? '#f97316' :
-                    stress?.level === 'NORMAL' ? '#eab308' : '#f43f5e'
+                      stress?.level === 'HIGH' ? '#f97316' :
+                        stress?.level === 'NORMAL' ? '#eab308' : '#f43f5e'
                   } />
                   주간 컨디션 요약
                 </h3>
@@ -190,8 +190,8 @@ const MyPageMain = () => {
                 <p>
                   이번 주 전반적으로 <span style={{
                     color: stress?.level === 'CRITICAL' ? '#dc2626' :
-                           stress?.level === 'HIGH' ? '#f97316' :
-                           stress?.level === 'NORMAL' ? '#eab308' : '#2563eb',
+                      stress?.level === 'HIGH' ? '#f97316' :
+                        stress?.level === 'NORMAL' ? '#eab308' : '#2563eb',
                     fontWeight: 700
                   }}>{stress?.message || '안정적인 컨디션'}</span>을 유지하고 있습니다.
                   {' '}{stress?.description || '규칙적인 휴식과 긍정적인 마인드로 활기찬 한 주를 보내세요!'}

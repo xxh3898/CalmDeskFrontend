@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchCallRecords, searchByPhone } from "../../../api/callRecordsApi";
+import { fetchCallRecords, searchByPhone } from "../../../api/callRecordsApi.js";
 import { Phone, Search, FileText } from "lucide-react";
-import * as S from "./CallRecords.styles";
+import * as S from "./CallRecords.styles.js";
 
 // API가 한국 시간(서버 LocalDateTime)으로 내려주므로, 타임존 없으면 KST(+09:00)로 해석
 const formatDateTime = (dt) => {

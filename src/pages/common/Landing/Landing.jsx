@@ -1,8 +1,8 @@
 import React from 'react';
 import { ArrowRight, ShieldCheck, HeartPulse, Zap } from 'lucide-react';
-import Logo from '../../../components/Logo';
-import FooterLinks from '../../../components/Footer';
-import * as S from './Landing.styles';
+import Logo from '../../../components/Logo.jsx';
+import FooterLinks from '../../../components/Footer.jsx';
+import * as S from './Landing.styles.js';
 
 const LandingPage = ({ onStart, onViewFeatures }) => {
   return (

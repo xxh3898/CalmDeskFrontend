@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Gift, CheckCircle2, XCircle, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import useStore from '../../../store/useStore';
-import * as S from './GifticonManagement.styles';
+import useStore from '../../../store/useStore.js';
+import * as S from './GifticonManagement.styles.js';
 
 const AdminGifticonManagement = () => {
     const navigate = useNavigate();
@@ -12,11 +12,11 @@ const AdminGifticonManagement = () => {
 
     useEffect(() => {
         fetchItems();
-         console.log(items);
+        console.log(items);
     }, [fetchItems]);
 
-    
-    
+
+
     return (
         <S.Container>
             <S.PageHeader>

@@ -8,7 +8,7 @@ import {
   Area,
   AreaChart
 } from 'recharts';
-import * as S from './WeeklyChart.styles';
+import * as S from './WeeklyChart.styles.js';
 
 
 

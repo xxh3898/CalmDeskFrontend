@@ -1,4 +1,4 @@
-import apiClient from './axios';
+import apiClient from './axios.js';
 
 export const mypageApi = {
   // 프로필 조회

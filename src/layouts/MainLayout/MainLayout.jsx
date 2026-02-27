@@ -1,10 +1,10 @@
 import React from "react";
-import useStore from "../../store/useStore";
-import Header from "../../components/Header";
-import FooterLinks from "../../components/Footer";
-import ChatWidget from "../../components/ChatWidget/ChatWidget";
-import * as S from "./MainLayout.styles";
-import useWebSocket from "../../hooks/useWebSocket";
+import useStore from "../../store/useStore.js";
+import Header from "../../components/Header.jsx";
+import FooterLinks from "../../components/Footer.jsx";
+import ChatWidget from "../../components/ChatWidget/ChatWidget.jsx";
+import * as S from "./MainLayout.styles.js";
+import useWebSocket from "../../hooks/useWebSocket.js";
 
 const MainLayout = ({ children }) => {
   const { isAdminMode } = useStore();

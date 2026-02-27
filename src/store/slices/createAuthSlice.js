@@ -1,5 +1,5 @@
-import { decodeToken } from "../../utils/jwtUtils";
-import { tokenManager } from "../../utils/tokenManager";
+import { decodeToken } from "../../utils/jwtUtils.js";
+import { tokenManager } from "../../utils/tokenManager.js";
 
 export const createAuthSlice = (set) => ({
   user: null,
@@ -14,9 +14,9 @@ export const createAuthSlice = (set) => ({
     const decoded = user.token ? decodeToken(user.token) : null;
     const role =
       user.role || (user.token ? decodeToken(user.token)?.role : null);
-   
-       const companyId = user.companyId || decoded?.companyId;
-      const isAdmin = role === "ADMIN";
+
+    const companyId = user.companyId || decoded?.companyId;
+    const isAdmin = role === "ADMIN";
 
     // console.log("=== 로그인 데이터 확인 ===");
     // console.log("원본 user 객체:", user);

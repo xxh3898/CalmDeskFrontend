@@ -1,4 +1,4 @@
-import apiClient from './axios';
+import apiClient from './axios.js';
 
 /**
  * 팀원관리 API (관리자 - 로그인한 사용자와 같은 회사 소속만 조회)
@@ -38,7 +38,7 @@ export const teamApi = {
     return response.data;
   },
 
-    /** 회사 소속 부서 목록 (departmentId, departmentName) - 명함 등록 팀 선택용 */
+  /** 회사 소속 부서 목록 (departmentId, departmentName) - 명함 등록 팀 선택용 */
   getDepartmentsList: async () => {
     const response = await apiClient.get('/admin/team/departments-list');
     return response.data;

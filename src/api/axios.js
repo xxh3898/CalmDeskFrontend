@@ -1,7 +1,7 @@
 import axios from "axios";
-import { tokenManager } from "../utils/tokenManager";
-import { refreshAccessToken } from "./authApi";
-import { API_URL } from "../Config";
+import { tokenManager } from "../utils/tokenManager.js";
+import { refreshAccessToken } from "./authApi.js";
+import { API_URL } from "../Config.jsx";
 
 const getBaseURL = () => {
   if (typeof API_URL !== 'undefined' && API_URL) return `${API_URL}/api`;

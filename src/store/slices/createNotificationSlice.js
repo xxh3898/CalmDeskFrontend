@@ -1,4 +1,4 @@
-import apiClient from "../../api/axios"; // 설정하신 apiClient 임포트
+import apiClient from "../../api/axios.js"; // 설정하신 apiClient 임포트
 
 export const createNotificationSlice = (set, get) => ({
     notifications: [],
@@ -14,7 +14,7 @@ export const createNotificationSlice = (set, get) => ({
         try {
             // apiClient를 사용하므로 headers: getAuthHeader()를 매번 넣을 필요가 없습니다.
             const response = await apiClient.get(`/notifications/${targetId}`);
-            
+
             const formattedData = response.data.map(noti => ({
                 id: noti.id,
                 title: noti.title,

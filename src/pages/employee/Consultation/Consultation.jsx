@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import apiClient from '../../../api/axios';
+import apiClient from '../../../api/axios.js';
 import { Clock, CheckCircle2, Send, Info } from 'lucide-react';
-import * as S from './Consultation.styles';
+import * as S from './Consultation.styles.js';
 
 const CounselingRequestPage = () => {
   const [title, setTitle] = useState('');

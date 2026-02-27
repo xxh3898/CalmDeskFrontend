@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { uploadCallRecording } from "../../../api/callRecordsApi";
+import { uploadCallRecording } from "../../../api/callRecordsApi.js";
 import { Mic, Square } from "lucide-react";
-import * as S from "./Call.styles";
+import * as S from "./Call.styles.js";
 
 const Call = () => {
   const [status, setStatus] = useState("idle"); // idle | recording | ended
@@ -42,7 +42,7 @@ const Call = () => {
   // 녹음 시작
   const handleStartRecording = async () => {
     setError(null);
-    
+
     try {
       // 이전 리소스 정리
       if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
@@ -57,13 +57,13 @@ const Call = () => {
         localStreamRef.current.getTracks().forEach((t) => t.stop());
         localStreamRef.current = null;
       }
-      
+
       chunksRef.current = [];
       setRecordingDuration(0);
       setRecordingSize(0);
-      
+
       // 마이크 접근 권한 요청
-      const stream = await navigator.mediaDevices.getUserMedia({ 
+      const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,  // 에코 제거
           noiseSuppression: true,   // 노이즈 제거
@@ -73,24 +73,24 @@ const Call = () => {
         }
       });
       localStreamRef.current = stream;
-      
+
       // MediaRecorder 옵션: 오디오 품질 최적화 (Google Cloud Speech-to-Text 지원)
       const options = {
         mimeType: MediaRecorder.isTypeSupported("audio/ogg;codecs=opus")
           ? "audio/ogg;codecs=opus"  // OGG 우선 (Google Cloud Speech-to-Text 지원)
           : MediaRecorder.isTypeSupported("audio/ogg")
-          ? "audio/ogg"
-          : MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-          ? "audio/webm;codecs=opus"  // WebM 대체
-          : MediaRecorder.isTypeSupported("audio/webm")
-          ? "audio/webm"
-          : "audio/webm",  // 기본값
+            ? "audio/ogg"
+            : MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+              ? "audio/webm;codecs=opus"  // WebM 대체
+              : MediaRecorder.isTypeSupported("audio/webm")
+                ? "audio/webm"
+                : "audio/webm",  // 기본값
         audioBitsPerSecond: 64000  // 64kbps (고품질 오디오)
       };
-      
+
       const recorder = new MediaRecorder(stream, options);
       chunksRef.current = [];
-      
+
       recorder.ondataavailable = (e) => {
         if (e.data && e.data.size > 0) {
           chunksRef.current.push(e.data);
@@ -98,29 +98,29 @@ const Call = () => {
           console.log("✅ 청크 추가됨. 총 청크 수:", chunksRef.current.length, "총 크기:", (totalSize / 1024).toFixed(2), "KB");
         }
       };
-      
+
       recorder.onstop = () => {
         const totalSize = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
         console.log("녹음 종료. 총 청크 수:", chunksRef.current.length, "총 크기:", totalSize, "bytes");
       };
-      
+
       recorder.onerror = (e) => {
         console.error("MediaRecorder 에러:", e);
         setError("녹음 중 오류가 발생했습니다.");
       };
-      
+
       recorder.onstart = () => {
         console.log("✅ 녹음 시작됨");
         setRecordingStartedAt(new Date());
         setRecordingDuration(0);
         setRecordingSize(0);
       };
-      
+
       // 녹음 시작
       recorder.start(0); // 0 = 가능한 한 자주 데이터 수집
       mediaRecorderRef.current = recorder;
       setStatus("recording");
-      
+
     } catch (err) {
       console.error("녹음 시작 실패:", err);
       if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
@@ -138,12 +138,12 @@ const Call = () => {
   const handleStopRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
       console.log("녹음 중지 시작, 현재 상태:", mediaRecorderRef.current.state);
-      
+
       // 마지막 데이터를 확보하기 위해 requestData 호출
       if (mediaRecorderRef.current.state === "recording") {
         mediaRecorderRef.current.requestData();
       }
-      
+
       // 약간의 지연 후 stop (마지막 데이터 수집을 위해)
       setTimeout(() => {
         if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
@@ -153,13 +153,13 @@ const Call = () => {
         mediaRecorderRef.current = null;
       }, 200);
     }
-    
+
     // 마이크 스트림 정리
     if (localStreamRef.current) {
       localStreamRef.current.getTracks().forEach((t) => t.stop());
       localStreamRef.current = null;
     }
-    
+
     // chunksRef는 업로드 전까지 유지 (업로드 후에만 초기화)
     setStatus("ended");
   };
@@ -167,7 +167,7 @@ const Call = () => {
   // 녹음 파일 업로드
   const handleUpload = async () => {
     const phone = customerPhone.trim() || "미입력";
-    
+
     // 디버깅 정보
     const totalSize = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
     console.log("업로드 시도:", {
@@ -176,12 +176,12 @@ const Call = () => {
       chunksSizeKB: (totalSize / 1024).toFixed(2),
       phone: phone
     });
-    
+
     if (chunksRef.current.length === 0) {
       alert("녹음 데이터가 없습니다. 녹음을 다시 시작해주세요.");
       return;
     }
-    
+
     if (totalSize < 1000) {
       const confirmUpload = window.confirm(
         `경고: 녹음 파일 크기가 매우 작습니다 (${(totalSize / 1024).toFixed(2)} KB).\n` +
@@ -191,17 +191,17 @@ const Call = () => {
         return;
       }
     }
-    
+
     // 오디오 전용 Blob 생성 (OGG 형식 우선, Google Cloud Speech-to-Text 지원)
-    const mimeType = chunksRef.current.length > 0 && chunksRef.current[0].type 
-      ? chunksRef.current[0].type 
+    const mimeType = chunksRef.current.length > 0 && chunksRef.current[0].type
+      ? chunksRef.current[0].type
       : "audio/ogg;codecs=opus";
     const extension = mimeType.includes("ogg") ? "ogg" : mimeType.includes("webm") ? "webm" : "wav";
     const blob = new Blob(chunksRef.current, { type: mimeType });
     const file = new File([blob], `recording.${extension}`, { type: mimeType });
     const started = recordingStartedAt || new Date();
     const ended = new Date();
-    
+
     // 한국 시간(KST)으로 전송해 통화 기록 목록에서도 한국 시간으로 표시되도록 함
     const format = (d) => {
       const date = d instanceof Date ? d : new Date(d);
@@ -213,9 +213,9 @@ const Call = () => {
     setUploadProgress(0);
     try {
       await uploadCallRecording(
-        file, 
-        phone, 
-        format(started), 
+        file,
+        phone,
+        format(started),
         format(ended),
         (progress) => {
           setUploadProgress(progress);
@@ -304,10 +304,10 @@ const Call = () => {
           </div>
           {uploading && (
             <div style={{ marginTop: "16px", marginBottom: "16px" }}>
-              <div style={{ 
-                width: "100%", 
-                height: "8px", 
-                backgroundColor: "#e0e0e0", 
+              <div style={{
+                width: "100%",
+                height: "8px",
+                backgroundColor: "#e0e0e0",
                 borderRadius: "4px",
                 overflow: "hidden"
               }}>

@@ -3,9 +3,9 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 import {
   getDashboardStats,
   getYesterdayDashboardStats,
-} from "../api/dashboardApi";
-import { API_URL } from "../../../../Config";
-import { tokenManager } from "../../../../utils/tokenManager";
+} from "../api/adminDashboardApi.js";
+import { API_URL } from "../../../../Config.jsx";
+import { tokenManager } from "../../../../utils/tokenManager.js";
 
 const useDashboardData = () => {
   const [realtimeData, setRealtimeData] = useState(null);

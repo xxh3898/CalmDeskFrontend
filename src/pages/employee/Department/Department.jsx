@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../../../api/axios';
-import useStore from '../../../store/useStore';
+import apiClient from '../../../api/axios.js';
+import useStore from '../../../store/useStore.js';
 import {
   Users,
   Mail,
@@ -12,7 +12,7 @@ import {
   AlertCircle,
   MessageCircle
 } from 'lucide-react';
-import * as S from './Department.styles';
+import * as S from './Department.styles.js';
 
 const Department = () => {
   // 전역 스토어에서 사용자 정보(내 부서 ID) 가져오기

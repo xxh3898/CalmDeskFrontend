@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import * as S from "../Dashboard.styles";
+import * as S from "../Dashboard.styles.js";
 
 const DashboardChart = ({ departmentStats, yesterdayDeptStats }) => {
   const [chartType, setChartType] = useState("realtime");
@@ -80,8 +80,8 @@ const DashboardChart = ({ departmentStats, yesterdayDeptStats }) => {
             {chartType === "realtime"
               ? "현재 부서별 멘탈 건강 상태 실시간 분석"
               : chartType === "yesterday"
-              ? "전일 부서별 멘탈 건강 통합 지표 분석"
-              : "부서별 쿨다운(휴식) 요청 빈도 분석"}
+                ? "전일 부서별 멘탈 건강 통합 지표 분석"
+                : "부서별 쿨다운(휴식) 요청 빈도 분석"}
           </p>
         </S.HeaderLeft>
 
@@ -164,15 +164,15 @@ const DashboardChart = ({ departmentStats, yesterdayDeptStats }) => {
                       ? entry.val > 50
                         ? "#fb7185"
                         : entry.val > 35
-                        ? "#818cf8"
-                        : "#475569"
+                          ? "#818cf8"
+                          : "#475569"
                       : chartType === "yesterday"
-                      ? entry.val > 35
-                        ? "#818cf8"
-                        : "#475569"
-                      : entry.val > 2
-                      ? "#60a5fa"
-                      : "#475569"
+                        ? entry.val > 35
+                          ? "#818cf8"
+                          : "#475569"
+                        : entry.val > 2
+                          ? "#60a5fa"
+                          : "#475569"
                   }
                 />
               ))}

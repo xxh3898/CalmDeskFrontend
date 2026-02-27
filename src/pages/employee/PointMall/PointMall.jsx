@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { ShoppingBag, Trophy, Gift } from 'lucide-react';
-import useStore from '../../../store/useStore'; // 스토어 경로에 맞춰 수정하세요
-import * as S from './PointMall.styles';
-import MissionSection from './MissionSection';
-import ShopSection from './ShopSection';
+import useStore from '../../../store/useStore.js'; // 스토어 경로에 맞춰 수정하세요
+import * as S from './PointMall.styles.js';
+import MissionSection from './MissionSection.jsx';
+import ShopSection from './ShopSection.jsx';
 
 const PointMall = () => {
     const [pointMallTab, setPointMallTab] = React.useState('MISSIONS');
-    
-      
+
+
     // 스토어에서 필요한 상태와 액션 추출
     const { mallData, loading, fetchPointMallData, user } = useStore();
 
@@ -63,14 +63,14 @@ const PointMall = () => {
             </S.TabContainer>
 
             {pointMallTab === 'SHOP' ? (
-                <ShopSection 
-                    items={mallData.shopItems} 
-                    refreshData={() => fetchPointMallData(userId)} 
+                <ShopSection
+                    items={mallData.shopItems}
+                    refreshData={() => fetchPointMallData(userId)}
                 />
             ) : (
-                <MissionSection 
-                    missions={mallData.missions} 
-                    refreshData={() => fetchPointMallData(userId)} 
+                <MissionSection
+                    missions={mallData.missions}
+                    refreshData={() => fetchPointMallData(userId)}
                 />
             )}
         </S.Container>

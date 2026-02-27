@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../../../api/axios';
+import axios from '../../../api/axios.js';
 import {
     Overlay,
     ModalContainer,
@@ -10,7 +10,7 @@ import {
     ButtonGroup,
     ConfirmButton,
     CancelButton
-} from './Chat.styles';
+} from './Chat.styles.js';
 
 const CreateChatModal = ({ onClose, onSuccess, isDark }) => {
     const [users, setUsers] = useState([]);

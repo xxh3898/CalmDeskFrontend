@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AlertTriangle, Search, Users, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import * as S from "../Dashboard.styles";
+import * as S from "../Dashboard.styles.js";
 
 const StressTopList = ({
   highRiskMembers,

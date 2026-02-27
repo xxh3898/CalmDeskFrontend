@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ChatRoomList from './ChatRoomList';
-import ChatRoom from './ChatRoom';
-import { ChatContainer, Sidebar, ChatArea, EmptyState } from './Chat.styles';
-import useStore from '../../../store/useStore';
+import ChatRoomList from './ChatRoomList.jsx';
+import ChatRoom from './ChatRoom.jsx';
+import { ChatContainer, Sidebar, ChatArea, EmptyState } from './Chat.styles.js';
+import useStore from '../../../store/useStore.js';
 
 const ChatPage = () => {
     const { currentRoomId, setCurrentRoomId } = useStore(state => state.chat);

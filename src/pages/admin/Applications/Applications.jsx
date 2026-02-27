@@ -12,8 +12,8 @@ import {
   ChevronRight,
   UserPlus
 } from 'lucide-react';
-import * as S from './Applications.styles';
-import { applicationsApi } from '../../../api/applicationsApi';
+import * as S from './Applications.styles.js';
+import { applicationsApi } from '../../../api/applicationsApi.js';
 
 const statusMap = { 승인대기: '대기', 승인완료: '승인', 반려: '반려' };
 const consultationStatusMap = { WAITING: '대기', IN_PROGRESS: '진행중', COMPLETED: '승인', CANCELLED: '취소' };
@@ -456,7 +456,7 @@ const AdminApplications = () => {
                       자세히 <ChevronRight size={12} />
                     </button>
                   </S.ItemBottom>
-                  </S.ListItem>
+                </S.ListItem>
               ))}
               {filteredList.length === 0 && (
                 <S.EmptyList>내역이 없습니다.</S.EmptyList>

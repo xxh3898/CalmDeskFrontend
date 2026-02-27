@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
-import useStore from '../../store/useStore';
-import { chatApi } from '../../api/chatApi';
-import * as S from './ChatWidget.styles';
+import useStore from '../../store/useStore.js';
+import { chatApi } from '../../api/chatApi.js';
+import * as S from './ChatWidget.styles.js';
 
 const formatTime = () => {
   const now = new Date();

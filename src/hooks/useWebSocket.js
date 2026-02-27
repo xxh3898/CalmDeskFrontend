@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Client } from '@stomp/stompjs';
-import useStore from '../store/useStore';
-import { API_URL } from '../Config';
-import { tokenManager } from '../utils/tokenManager';
+import useStore from '../store/useStore.js';
+import { API_URL } from '../Config.jsx';
+import { tokenManager } from '../utils/tokenManager.js';
 
 const useWebSocket = () => {
     // Auth slice에서 토큰을 가져오지 않고 tokenManager 사용 (zustand persist 문제 방지)

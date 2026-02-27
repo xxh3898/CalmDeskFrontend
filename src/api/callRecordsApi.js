@@ -1,4 +1,4 @@
-import apiClient from "./axios";
+import apiClient from "./axios.js";
 
 /**
  * 통화 목록 (내 통화 / 전체)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Modal from './common/Modal';
+import Modal from './common/Modal.jsx';
 
 const LinkContainer = styled.div`
   display: flex;

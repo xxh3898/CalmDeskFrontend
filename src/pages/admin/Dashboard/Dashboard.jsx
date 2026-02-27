@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import * as S from "./Dashboard.styles";
-import useDashboardData from "./hooks/useDashboardData";
-import { teamApi } from "../../../api/teamApi";
+import * as S from "./Dashboard.styles.js";
+import useDashboardData from "./hooks/useDashboardData.js";
+import { teamApi } from "../../../api/teamApi.js";
 
-import DashboardBanner from "./components/DashboardBanner";
-import DashboardStats from "./components/DashboardStats";
-import DashboardChart from "./components/DashboardChart";
-import StressTopList from "./components/StressTopList";
-import MemberDetailModal from "../TeamManagement/components/MemberDetailModal";
+import DashboardBanner from "./components/DashboardBanner.jsx";
+import DashboardStats from "./components/DashboardStats.jsx";
+import DashboardChart from "./components/DashboardChart.jsx";
+import StressTopList from "./components/StressTopList.jsx";
+import MemberDetailModal from "../TeamManagement/components/MemberDetailModal.jsx";
 
 const AdminDashboard = () => {
   const { realtimeData, yesterdayData, loading, error } = useDashboardData();

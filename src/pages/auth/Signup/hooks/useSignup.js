@@ -5,9 +5,9 @@ import {
   registerCompany,
   joinCompany,
   verifyCompanyCode,
-} from "../api/signupApi";
-import { decodeToken } from "../../../../utils/jwtUtils";
-import { tokenManager } from "../../../../utils/tokenManager";
+} from "../api/Signupapi.js";
+import { decodeToken } from "../../../../utils/jwtUtils.js";
+import { tokenManager } from "../../../../utils/tokenManager.js";
 
 export const useSignup = (onLogin) => {
   const navigate = useNavigate();

@@ -14,8 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import * as S from "../Dashboard.styles"; // Dashboard styles usage
-// import { teamApi } from '../../../api/teamApi'; // Removed hard dependency
+import * as S from "../Dashboard.styles.js"; // Dashboard styles usage
+// import { teamApi } from '../../../api/teamApi.js'; // Removed hard dependency
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -51,19 +51,19 @@ const MOCK_HISTORY = [
 
 // Mock API function (Local to this file or imported from API)
 const fetchMockAttendance = async (memberId, year, month) => {
-    // 0.2초 딜레이
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    
-    // 간단한 Mock 데이터 생성
-    const daysInMonth = new Date(year, month, 0).getDate();
-    const mockData = {};
-    for (let i = 1; i <= daysInMonth; i++) {
-        const rand = Math.random();
-        if (rand > 0.9) mockData[i] = "결근";
-        else if (rand > 0.8) mockData[i] = "지각";
-        else mockData[i] = "출근";
-    }
-    return mockData;
+  // 0.2초 딜레이
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  // 간단한 Mock 데이터 생성
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const mockData = {};
+  for (let i = 1; i <= daysInMonth; i++) {
+    const rand = Math.random();
+    if (rand > 0.9) mockData[i] = "결근";
+    else if (rand > 0.8) mockData[i] = "지각";
+    else mockData[i] = "출근";
+  }
+  return mockData;
 };
 
 export default function AgentDetailModal({ selectedMember, onClose }) {
@@ -79,7 +79,7 @@ export default function AgentDetailModal({ selectedMember, onClose }) {
       return;
     }
     let cancelled = false;
-    
+
     // Use Mock API directly here or inject via props if needed
     fetchMockAttendance(member.id, displayYear, displayMonth)
       .then((data) => {
@@ -142,7 +142,7 @@ export default function AgentDetailModal({ selectedMember, onClose }) {
                 <Calendar />
                 <span>{member.joinDate ? `${member.joinDate} 입사` : "-"}</span>
               </S.ContactChip>
-               <S.ContactChip>
+              <S.ContactChip>
                 <Palmtree size={14} />
                 <span>잔여 연차: {typeof member.remainingLeave === 'number' ? `${member.remainingLeave}일` : (member.remainingLeave ?? member.metrics?.leave ?? '-')}</span>
               </S.ContactChip>
@@ -159,11 +159,11 @@ export default function AgentDetailModal({ selectedMember, onClose }) {
               {/* Calendar Widget (Reused from MemberDetailModal) */}
               <S.Container style={{ padding: 0, boxShadow: 'none', background: 'transparent' }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <button onClick={goPrevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><ChevronLeft size={20} /></button>
-                        <span style={{ fontWeight: 'bold' }}>{monthLabel} 근태 현황</span>
-                        <button onClick={goNextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><ChevronRight size={20} /></button>
-                    </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <button onClick={goPrevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><ChevronLeft size={20} /></button>
+                    <span style={{ fontWeight: 'bold' }}>{monthLabel} 근태 현황</span>
+                    <button onClick={goNextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><ChevronRight size={20} /></button>
+                  </div>
                 </div>
                 <S.CalendarGrid>
                   {WEEKDAYS.map((d) => (
@@ -186,7 +186,7 @@ export default function AgentDetailModal({ selectedMember, onClose }) {
             </S.LeftColumn>
 
             <S.RightColumn>
-               <S.WellnessItem>
+              <S.WellnessItem>
                 <S.WellnessLeft>
                   <S.WellnessIcon color="orange">
                     <Zap size={18} />
@@ -198,23 +198,23 @@ export default function AgentDetailModal({ selectedMember, onClose }) {
                   <span>회</span>
                 </S.WellnessValue>
               </S.WellnessItem>
-              
-               {/* Simplified Wellness Section */}
+
+              {/* Simplified Wellness Section */}
               <S.WellnessSection>
-                 <S.SectionTitle>
+                <S.SectionTitle>
                   <HeartPulse size={16} color="#fb7185" />
                   웰니스 모니터링
                 </S.SectionTitle>
-                 <S.WellnessItem>
-                   <S.WellnessLabel>현재 스트레스</S.WellnessLabel>
-                   <S.WellnessValue color="#f43f5e">
+                <S.WellnessItem>
+                  <S.WellnessLabel>현재 스트레스</S.WellnessLabel>
+                  <S.WellnessValue color="#f43f5e">
                     <p>{member.stress}%</p>
-                   </S.WellnessValue>
-                 </S.WellnessItem>
+                  </S.WellnessValue>
+                </S.WellnessItem>
               </S.WellnessSection>
-               
-               {/* History Section */}
-               <S.WellnessSection>
+
+              {/* History Section */}
+              <S.WellnessSection>
                 <S.SectionTitle>
                   <History size={16} color="#818cf8" />
                   최근 활동
@@ -222,11 +222,11 @@ export default function AgentDetailModal({ selectedMember, onClose }) {
                 <S.HistoryList>
                   {MOCK_HISTORY.map((item, idx) => (
                     <S.HistoryItem key={idx}>
-                       <S.HistoryText>{item.title}</S.HistoryText>
+                      <S.HistoryText>{item.title}</S.HistoryText>
                     </S.HistoryItem>
                   ))}
                 </S.HistoryList>
-               </S.WellnessSection>
+              </S.WellnessSection>
             </S.RightColumn>
           </S.ContentGrid>
         </S.DetailContent>

@@ -1,7 +1,7 @@
 import React from "react";
 import { ChevronLeft, Building2, Briefcase } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import * as S from "../Signup.style";
+import * as S from "../Signup.style.js";
 
 const SignupType = ({ onSelectType }) => {
   const navigate = useNavigate();

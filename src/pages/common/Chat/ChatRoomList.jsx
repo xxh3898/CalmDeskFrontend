@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import useStore from '../../../store/useStore';
-import { RoomListStart, RoomItem, UnreadBadge } from './Chat.styles';
-import axios from '../../../api/axios';
-import CreateChatModal from './CreateChatModal';
+import useStore from '../../../store/useStore.js';
+import { RoomListStart, RoomItem, UnreadBadge } from './Chat.styles.js';
+import axios from '../../../api/axios.js';
+import CreateChatModal from './CreateChatModal.jsx';
 import { Plus } from 'lucide-react';
 
 const ChatRoomList = ({ isDark }) => {

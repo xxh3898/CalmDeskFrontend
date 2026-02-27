@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MyPageMain from './MyPageMain';
-import ProfileEditView from './ProfileEditView';
-import CouponWalletView from './CouponWalletView';
-import PointHistoryView from './PointHistoryView';
+import MyPageMain from './MyPageMain.jsx';
+import ProfileEditView from './ProfileEditView.jsx';
+import CouponWalletView from './CouponWalletView.jsx';
+import PointHistoryView from './PointHistoryView.jsx';
 
 const MyPage = () => {
   return (

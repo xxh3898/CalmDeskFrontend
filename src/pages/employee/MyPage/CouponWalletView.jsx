@@ -5,9 +5,9 @@ import {
   Clock,
   ShoppingBag
 } from 'lucide-react';
-import * as S from './MyPage.styles';
-import useStore from '../../../store/useStore';
-import { mypageApi } from '../../../api/mypageApi';
+import * as S from './MyPage.styles.js';
+import useStore from '../../../store/useStore.js';
+import { mypageApi } from '../../../api/mypageApi.js';
 
 const DEFAULT_COLORS = ['#2563eb', '#059669', '#d97706', '#7c3aed', '#dc2626', '#0891b2'];
 

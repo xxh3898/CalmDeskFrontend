@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Ghost, Home, ArrowLeft } from 'lucide-react';
-import * as S from './NotFound.styles';
+import * as S from './NotFound.styles.js';
 
 const NotFound = () => {
     const navigate = useNavigate();

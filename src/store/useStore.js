@@ -1,11 +1,11 @@
 import { create } from 'zustand';
-import { createAuthSlice } from './slices/createAuthSlice';
-import { createAdminShopSlice } from './slices/createAdminShopSlice';
-import { createEmployeeShop } from './slices/createEmployeeShop';
-import { createUiSlice } from './slices/createUiSlice';
-import { createAttendanceSlice } from './slices/createAttendanceSlice';
-import { createChatSlice } from './slices/createChatSlice';
-import { createNotificationSlice } from './slices/createNotificationSlice';
+import { createAuthSlice } from './slices/createAuthSlice.js';
+import { createAdminShopSlice } from './slices/createAdminShopSlice.js';
+import { createEmployeeShop } from './slices/createEmployeeShop.js';
+import { createUiSlice } from './slices/createUiSlice.js';
+import { createAttendanceSlice } from './slices/createAttendanceSlice.js';
+import { createChatSlice } from './slices/createChatSlice.js';
+import { createNotificationSlice } from './slices/createNotificationSlice.js';
 
 const useStore = create((set, get) => ({
     ...createAuthSlice(set, get),

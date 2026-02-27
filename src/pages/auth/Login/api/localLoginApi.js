@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "../../../../Config";
+import { API_URL } from "../../../../Config.jsx";
 
 export const login = async (data) => {
   try {

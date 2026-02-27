@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ChevronLeft, Upload, Loader2, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import * as S from "../Signup.style";
-import { extractBusinessCard } from "../api/Signupapi";
+import * as S from "../Signup.style.js";
+import { extractBusinessCard } from "../api/Signupapi.js";
 
 const BusinessCardUpload = ({ onExtracted, onBack }) => {
   const navigate = useNavigate();

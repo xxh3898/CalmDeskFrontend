@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import useStore from '../../../store/useStore';
-import apiClient from '../../../api/axios';
+import useStore from '../../../store/useStore.js';
+import apiClient from '../../../api/axios.js';
 import {
   Clock,
   Calendar as CalendarIcon,
@@ -20,7 +20,7 @@ import {
   Briefcase,
   MessageSquare
 } from 'lucide-react';
-import * as S from './Attendance.styles';
+import * as S from './Attendance.styles.js';
 
 const API_BASE_URL = '/employee/attendance';
 const VACATION_API_URL = '/employee/vacation'; // 휴가 신청/취소는 별도 컨트롤러
@@ -196,10 +196,10 @@ const Attendance = () => {
           const startDay = parseInt(startMatch[3]);
           const endMonth = parseInt(endMatch[1]);
           const endDay = parseInt(endMatch[2]);
-          
+
           // 종료일의 연도는 시작일과 같은 연도이거나 다음 연도
           const endYear = endMonth < startMonth ? startYear + 1 : startYear;
-          
+
           leaveStartDate = `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`;
           leaveEndDate = `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`;
         }
@@ -221,17 +221,17 @@ const Attendance = () => {
         }
       }
     }
-    
+
     // 남은 휴가 개수 체크 (워케이션은 제외)
     if (type !== '워케이션' && summary) {
       const requestedDays = calculateVacationDays(type, startDate, endDate);
       const remainingDays = summary.remainingVacation || 0;
-      
+
       if (requestedDays > remainingDays) {
         return { isValid: false, message: `남은 휴가가 부족합니다. (남은 휴가: ${remainingDays}일, 신청하려는 휴가: ${requestedDays}일)` };
       }
     }
-    
+
     return { isValid: true };
   };
 
@@ -248,7 +248,7 @@ const Attendance = () => {
       vacationForm.startDate,
       vacationForm.endDate
     );
-    
+
     if (!validation.isValid) {
       alert(validation.message);
       return;
@@ -356,7 +356,7 @@ const Attendance = () => {
       if (leave.status !== '승인완료' && leave.status !== '반려') {
         return;
       }
-      
+
       if (leave.period) {
         // period 형식: "2026.01.25 - 01.26" 또는 "2026.01.14 (오후)" 또는 "2026.01.14"
         const parts = leave.period.split(' - ');
@@ -477,7 +477,7 @@ const Attendance = () => {
     // 휴가 확인 - 승인된 휴가만 캘린더에 표시되지만, 상세 현황에서는 모든 상태의 휴가를 확인
     const leaveInfo = leaveDaysMap.get(selectedDay);
     const leaveType = leaveInfo?.type ?? null;
-    
+
     // 해당 날짜에 해당하는 모든 휴가 신청 찾기 (상태 포함)
     const leaveForDay = leaveRequests.find(leave => {
       if (!leave.period) return false;
@@ -492,7 +492,7 @@ const Attendance = () => {
           const startDay = parseInt(startMatch[3]);
           const endMonth = parseInt(endMatch[1]);
           const endDay = parseInt(endMatch[2]);
-          
+
           if (startYear === year && startMonth === month + 1) {
             if (endMonth === month + 1) {
               return selectedDay >= startDay && selectedDay <= endDay;
@@ -721,11 +721,11 @@ const Attendance = () => {
                   <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
                     <S.LeaveTitle>
                       [{details.leaveType}] {
-                        details.leaveStatus === '승인완료' 
+                        details.leaveStatus === '승인완료'
                           ? (details.isFuture ? '예정' : '진행 중')
                           : details.leaveStatus === '승인대기'
-                          ? '승인 대기'
-                          : '반려'
+                            ? '승인 대기'
+                            : '반려'
                       }
                     </S.LeaveTitle>
                     <S.LeaveDesc>
@@ -748,19 +748,19 @@ const Attendance = () => {
                       <p>{details.leaveType}</p>
                     </S.InfoBox>
                     <S.InfoBox $highlight={
-                      details.leaveStatus === '승인완료' 
+                      details.leaveStatus === '승인완료'
                         ? (details.isFuture ? '#3b82f6' : '#16a34a')
                         : details.leaveStatus === '승인대기'
-                        ? '#f59e0b'
-                        : '#ef4444'
+                          ? '#f59e0b'
+                          : '#ef4444'
                     }>
                       <p>결재 상태</p>
                       <p>{
                         details.leaveStatus === '승인완료'
                           ? (details.isFuture ? '승인 완료' : '사용 중')
                           : details.leaveStatus === '승인대기'
-                          ? '승인 대기'
-                          : '반려'
+                            ? '승인 대기'
+                            : '반려'
                       }</p>
                     </S.InfoBox>
                   </S.InfoGrid>

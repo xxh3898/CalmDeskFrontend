@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useTeamMembers } from './hooks/useTeamMembers';
-import { teamApi } from '../../../api/teamApi';
-import apiClient from '../../../api/axios';
-import useStore from '../../../store/useStore';
-import SummaryCards from './components/SummaryCards';
-import TeamSearchBar from './components/TeamSearchBar';
-import MemberCard from './components/MemberCard';
-import MemberDetailModal from './components/MemberDetailModal';
-import AddDeptModal from './components/AddDeptModal';
-import * as S from './TeamManagement.styles';
+import { useTeamMembers } from './hooks/useTeamMembers.js';
+import { teamApi } from '../../../api/teamApi.js';
+import apiClient from '../../../api/axios.js';
+import useStore from '../../../store/useStore.js';
+import SummaryCards from './components/SummaryCards.jsx';
+import TeamSearchBar from './components/TeamSearchBar.jsx';
+import MemberCard from './components/MemberCard.jsx';
+import MemberDetailModal from './components/MemberDetailModal.jsx';
+import AddDeptModal from './components/AddDeptModal.jsx';
+import * as S from './TeamManagement.styles.js';
 
 const errorBarStyle = {
   marginBottom: '0.5rem',
