@@ -268,7 +268,7 @@ export const ChartTabButton = styled.button`
 `;
 
 export const ChartWrapper = styled.div`
-  height: 70%;
+  height: 300px;
   width: 100%;
   margin-top: 1rem;
 `;
@@ -419,7 +419,7 @@ export const StatusRow = styled.div`
     font-size: 0.5625rem;
     font-weight: 700;
     ${(props) =>
-      props.status === "업무 중" ? "color: #818cf8;" : "color: #64748b;"}
+    props.status === "업무 중" ? "color: #818cf8;" : "color: #64748b;"}
   }
 `;
 
