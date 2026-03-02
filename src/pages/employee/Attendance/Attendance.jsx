@@ -27,7 +27,7 @@ const VACATION_API_URL = '/employee/vacation'; // 휴가 신청/취소는 별도
 
 const Attendance = () => {
   const { user } = useStore();
-  const memberId = user?.id || 1; // Fallback to 1 if not logged in (or handle redirect)
+  const memberId = user?.memberId || 1; // Fallback to 1 if not logged in (or handle redirect)
 
   // 현재 날짜 상태 관리 (년, 월) - 초기값은 현재 날짜
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -116,7 +116,7 @@ const Attendance = () => {
   const fetchConsultations = async () => {
     try {
       const response = await apiClient.get('/consultations/me');
-      const list = response.data || [];
+      const list = response.data.content || [];
       setConsultationRequests(list);
     } catch (err) {
       console.error('Failed to fetch consultations:', err);

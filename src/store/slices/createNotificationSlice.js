@@ -15,7 +15,8 @@ export const createNotificationSlice = (set, get) => ({
             // apiClient를 사용하므로 headers: getAuthHeader()를 매번 넣을 필요가 없습니다.
             const response = await apiClient.get(`/notifications/${targetId}`);
 
-            const formattedData = response.data.map(noti => ({
+            const notifications = response.data.content || [];
+            const formattedData = notifications.map(noti => ({
                 id: noti.id,
                 title: noti.title,
                 message: noti.content,
