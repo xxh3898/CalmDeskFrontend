@@ -12,20 +12,7 @@ import MemberDetailModal from "../TeamManagement/components/MemberDetailModal.js
 const AdminDashboard = () => {
   const { realtimeData, yesterdayData, loading, error } = useDashboardData();
   const [selectedMember, setSelectedMember] = useState(null);
-  const [allMembers, setAllMembers] = useState([]);
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const response = await teamApi.getAllMembers();
-        console.log("response:", response);
-        setAllMembers(response.content || []);
-      } catch (err) {
-        console.error("팀원 데이터 로드 실패:", err);
-      }
-    };
-    fetchMembers();
-  }, []);
 
   if (loading) {
     return (
@@ -67,19 +54,16 @@ const AdminDashboard = () => {
     );
   }
 
-  const handleSelectMember = (member) => {
-    console.log("member : ", member);
-    console.log("allMembers : ", allMembers);
+  const handleSelectMember = async (member) => {
+    try {
+      const fullData = await teamApi.getMemberDetail(member.memberId);
 
-    const fullData = allMembers.find((m) => m.memberId === member.memberId);
-
-    if (fullData) {
       const adaptedMember = {
         id: fullData.memberId,
         name: fullData.name,
         avatar: '👤',
         dept: fullData.departmentName,
-        stress: member.stressPercentage || fullData.stress,
+        stress: fullData.stress,
         role: fullData.rankName || "-",
         phone: fullData.phone || "-",
         email: fullData.email || "-",
@@ -92,7 +76,9 @@ const AdminDashboard = () => {
         },
       };
       setSelectedMember(adaptedMember);
-    } else {
+    } catch (err) {
+      console.error("팀원 상세 정보 로드 실패:", err);
+      // fallback if fetch fails
       const adaptedMember = {
         id: member.memberId,
         name: member.memberName,
