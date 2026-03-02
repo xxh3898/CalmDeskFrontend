@@ -39,8 +39,9 @@ const AdminApplications = () => {
 
   const fetchLeaves = useCallback(async () => {
     try {
-      const data = await applicationsApi.getLeaves();
-      setLeaveRequests((data || []).map((item) => {
+      const response = await applicationsApi.getLeaves();
+      const data = response?.content || response || [];
+      setLeaveRequests(data.map((item) => {
         const startDate = item.startDate ? new Date(item.startDate) : null;
         return {
           id: item.id,
@@ -66,8 +67,9 @@ const AdminApplications = () => {
 
   const fetchConsultations = useCallback(async () => {
     try {
-      const data = await applicationsApi.getConsultations();
-      setConsultationRequests((data || []).map((item) => {
+      const response = await applicationsApi.getConsultations();
+      const data = response?.content || response || [];
+      setConsultationRequests(data.map((item) => {
         const created = item.createdDate ? new Date(item.createdDate) : null;
         return {
           id: item.id,
@@ -93,8 +95,9 @@ const AdminApplications = () => {
 
   const fetchJoins = useCallback(async () => {
     try {
-      const data = await applicationsApi.getJoins();
-      setJoinRequests((data || []).map((item) => ({
+      const response = await applicationsApi.getJoins();
+      const data = response?.content || response || [];
+      setJoinRequests(data.map((item) => ({
         id: item.id,
         name: item.name,
         dept: item.departmentName || '-',
