@@ -65,11 +65,6 @@ const Dashboard = () => {
   const fetchDashboardData = async (updateStore = false) => {
     try {
       const response = await apiClient.get("/employee/dashboard");
-      // console.log("fetchDashboardData called:", new Error().stack);
-      console.log(
-        "currentStatus:",
-        response.data.attendanceStats.currentStatus
-      );
       setDashboardData(response.data);
 
       // 백엔드 상태와 스토어 동기화
@@ -423,7 +418,7 @@ const Dashboard = () => {
             <S.ProgressBar>
               <S.ProgressFill
                 $width={`${(dashboardData.vacationStats.usedDays /
-                    dashboardData.vacationStats.totalDays) *
+                  dashboardData.vacationStats.totalDays) *
                   100
                   }%`}
               />

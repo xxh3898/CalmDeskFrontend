@@ -31,7 +31,6 @@ const ShopSection = ({ refreshData }) => {
 
             alert(`${item.name} 교환이 완료되었습니다!`);
 
-            console.log(refreshData);
             // 부모 컴포넌트(PointMall)의 포인트 정보를 최신화
             if (refreshData) {
                 await refreshData(user.id);

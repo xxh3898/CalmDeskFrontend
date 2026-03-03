@@ -27,7 +27,6 @@ export const createNotificationSlice = (set, get) => ({
             }));
 
             set({ notifications: formattedData, isLoading: false });
-            console.log(`✅ [${targetId}] 알림 로드 완료:`, formattedData.length, "건");
         } catch (error) {
             console.error("❌ 알림 목록 로드 실패:", error);
             set({ isLoading: false });
@@ -51,7 +50,6 @@ export const createNotificationSlice = (set, get) => ({
 
         try {
             await apiClient.patch(`/notifications/${notificationId}/read`);
-            console.log(`✅ 알림 [${notificationId}] 읽음 처리 완료`);
         } catch (error) {
             console.error("❌ 알림 읽음 처리 실패:", error);
             // 에러 시 롤백 (선택 사항)
@@ -71,7 +69,6 @@ export const createNotificationSlice = (set, get) => ({
 
         try {
             await apiClient.patch(`/notifications/read-all/${targetId}`);
-            console.log(`✅ 사용자 [${targetId}] 전체 알림 읽음 처리 완료`);
         } catch (error) {
             console.error("❌ 전체 읽음 처리 실패:", error);
             set({ notifications: previousNotifications });

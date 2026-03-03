@@ -94,14 +94,10 @@ const Call = () => {
       recorder.ondataavailable = (e) => {
         if (e.data && e.data.size > 0) {
           chunksRef.current.push(e.data);
-          const totalSize = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
-          console.log("✅ 청크 추가됨. 총 청크 수:", chunksRef.current.length, "총 크기:", (totalSize / 1024).toFixed(2), "KB");
         }
       };
 
       recorder.onstop = () => {
-        const totalSize = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
-        console.log("녹음 종료. 총 청크 수:", chunksRef.current.length, "총 크기:", totalSize, "bytes");
       };
 
       recorder.onerror = (e) => {
@@ -110,7 +106,6 @@ const Call = () => {
       };
 
       recorder.onstart = () => {
-        console.log("✅ 녹음 시작됨");
         setRecordingStartedAt(new Date());
         setRecordingDuration(0);
         setRecordingSize(0);
@@ -137,8 +132,6 @@ const Call = () => {
   // 녹음 종료
   const handleStopRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-      console.log("녹음 중지 시작, 현재 상태:", mediaRecorderRef.current.state);
-
       // 마지막 데이터를 확보하기 위해 requestData 호출
       if (mediaRecorderRef.current.state === "recording") {
         mediaRecorderRef.current.requestData();
@@ -148,7 +141,6 @@ const Call = () => {
       setTimeout(() => {
         if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
           mediaRecorderRef.current.stop();
-          console.log("녹음 중지 완료, 최종 청크 수:", chunksRef.current.length);
         }
         mediaRecorderRef.current = null;
       }, 200);
@@ -168,14 +160,7 @@ const Call = () => {
   const handleUpload = async () => {
     const phone = customerPhone.trim() || "미입력";
 
-    // 디버깅 정보
     const totalSize = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
-    console.log("업로드 시도:", {
-      chunksCount: chunksRef.current.length,
-      chunksSize: totalSize,
-      chunksSizeKB: (totalSize / 1024).toFixed(2),
-      phone: phone
-    });
 
     if (chunksRef.current.length === 0) {
       alert("녹음 데이터가 없습니다. 녹음을 다시 시작해주세요.");

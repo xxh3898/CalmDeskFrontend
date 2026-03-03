@@ -17,4 +17,3 @@ const getApiUrl = () => {
 };
 
 export const API_URL = getApiUrl();
-console.log("🔥 신규 빌드 적용 완료! Target:", API_URL);

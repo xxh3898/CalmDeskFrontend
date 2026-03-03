@@ -33,22 +33,9 @@ export const createEmployeeShop = (set, get) => ({
 
       const url = `/employee/shop/${userId}`;
 
-      // 요청 정보 로깅
-      console.log(
-        `%c🚀 GET 요청 시도: ${url}`,
-        "color: #2196F3; font-weight: bold"
-      );
-
-
       const response = await apiClient.get(url, {
         params: { companyId: companyId } // ?companyId=11 형태로 전송됨
       });
-
-      console.log(
-        "%c✅ 데이터 로드 성공:",
-        "color: #4CAF50; font-weight: bold",
-        response.data
-      );
 
       if (response.data) {
         set({ mallData: response.data });
@@ -71,19 +58,7 @@ export const createEmployeeShop = (set, get) => ({
     // const headers = getAuthHeader();
 
     try {
-      console.log(
-        `%c🎁 미션 완료 요청: ${url}`,
-        "color: #9C27B0; font-weight: bold"
-      );
-      console.table(payload);
-
       const response = await apiClient.post(url, payload);
-
-      console.log(
-        "%c✅ 미션 보상 지급 완료:",
-        "color: #4CAF50; font-weight: bold",
-        response.data
-      );
 
       // 로컬 상태 업데이트: 포인트 증가 및 해당 미션 상태 'Y'로 변경
       set((state) => ({
@@ -124,26 +99,7 @@ export const createEmployeeShop = (set, get) => ({
     // const headers = getAuthHeader();
 
     try {
-      // 요청 정보 로깅
-      console.log(
-        `%c🛒 구매 POST 요청 시도: ${url}`,
-        "color: #FF9800; font-weight: bold"
-      );
-      console.table({
-        상품명: itemName,
-        상품ID: itemId,
-        사용자ID: userId,
-        결제금액: priceNumber,
-      });
-      // console.log("Request Headers:", headers);
-
       const response = await apiClient.post(url, payload);
-
-      console.log(
-        "%c🎉 구매 완료 응답:",
-        "color: #4CAF50; font-weight: bold",
-        response.data
-      );
 
       const newPurchase = {
         id: response.data.orderId || Date.now(),
@@ -188,8 +144,6 @@ export const createEmployeeShop = (set, get) => ({
 
       const url = `/admin/shop/history/all`;
 
-      console.log(`%c🌐 회사[${companyId}] 내역 요청 (Page: ${page})`, 'color: #009688; font-weight: bold');
-
       const response = await apiClient.get(url, {
         params: {
           companyId: companyId,
@@ -210,7 +164,6 @@ export const createEmployeeShop = (set, get) => ({
         }
       });
 
-      console.log('✅ 내역 로드 성공:', response.data.content.length, '건');
     } catch (error) {
       console.error("❌ 내역 로드 실패:", error);
     } finally {

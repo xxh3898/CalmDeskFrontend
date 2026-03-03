@@ -1,15 +1,8 @@
 
 import apiClient from "../../api/axios.js";
 
-// const API_URL = '/api/admin/shop'; // 백엔드 API 기본 주소
 let pending = {};
 let timer = null;
-
-// 공통 헤더 설정 함수 (매번 호출하기 번거로우면 axios.create를 쓰는 게 좋습니다)
-// const getAuthHeader = () => {
-//     const token = localStorage.getItem('authToken');
-//     return token ? { Authorization: `Bearer ${token}` } : {};
-// };
 
 export const createAdminShopSlice = (set, get) => ({
   items: [],
@@ -17,21 +10,14 @@ export const createAdminShopSlice = (set, get) => ({
 
   // 1. 초기 데이터 로드: 백엔드에서 모든 아이템 가져오기
   fetchItems: async (companyId) => {
-    // 1. 아직 로그인 로직이 없으므로, 전달받은 id가 없으면 가상의 1번을 사용
     const rawId = companyId || get().user?.companyId || 444;
     const targetId = parseInt(String(rawId).split(':')[0], 10);
-    console.log("요청하는 Company ID:", targetId);
 
     set({ isLoading: true });
     try {
-      // 2. 가상의 targetId를 쿼리 스트링으로 전달
       const res = await apiClient.get(`/admin/shop/items`, {
-        params: { companyId: targetId }// axios의 params 옵션을 쓰면 ?companyId=11 로 자동 변환됨
+        params: { companyId: targetId }
       });
-
-      //   console.log("📡 서버 응답 전체:", res);
-      //   console.log("📦 실제 데이터 배열:", res.data);
-      console.log(`✅ 회사 ID [${targetId}] 기프티콘 로드 완료:`, res.data);
 
       // 💡 백엔드 isActive를 프론트 active로 매핑
       const mappedItems = (Array.isArray(res.data) ? res.data : []).map(item => ({
@@ -129,11 +115,9 @@ export const createAdminShopSlice = (set, get) => ({
       pending = {};
       for (const [itemId, qty] of entries) {
         try {
-          // PUT 요청: 세 번째 인자에 헤더 추가
           await apiClient.put(
             `/admin/shop/items/${itemId}/${qty}`,
             {}
-            // headers: getAuthHeader() // 👈 헤더 추가
           );
         } catch (error) {
           console.error(`${itemId} 업데이트 실패`, error);

@@ -45,9 +45,6 @@ const MissionSection = ({ missions, refreshData }) => {
                     const goal = mission.goalCount || 0;
                     const current = mission.progressCount || 0;
 
-                    // ⭐ 브라우저 콘솔에서 값 확인 (F12 -> Console 탭)
-                    console.log(`[미션 ID: ${mission.id}] 제목: ${mission.title} | 현재: ${current} | 목표: ${goal}`);
-
                     const progressRate = mission.status === 'Y'
                         ? 100
                         : (goal > 0 ? Math.min(Math.floor((current / goal) * 100), 100) : 0);
@@ -67,11 +64,6 @@ const MissionSection = ({ missions, refreshData }) => {
                                 <S.MissionInfo>
                                     <h3>{mission.title}</h3>
                                     <p>{mission.description}</p>
-
-                                    {/* ⭐ 화면에서 직접 수치 확인 (개발 중에만 사용하세요) */}
-                                    <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '4px' }}>
-                                        수치 확인: {current} / {goal}
-                                    </div>
                                 </S.MissionInfo>
                             </S.CardTop>
 

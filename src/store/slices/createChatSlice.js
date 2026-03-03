@@ -20,7 +20,6 @@ export const createChatSlice = (set, get) => ({
                 set((state) => ({
                     chat: { ...state.chat, chatRooms: response.data }
                 }));
-                console.log('[fetchChatRooms] Chat rooms refreshed from server.');
             } catch (error) {
                 console.error('[fetchChatRooms] Failed to refresh chat rooms:', error);
             }
@@ -36,13 +35,11 @@ export const createChatSlice = (set, get) => ({
                 const existingMsg = state.chat.messages.find(m => m.id === newMsg.id);
                 if (existingMsg) {
                     if (existingMsg.unreadCount < newMsg.unreadCount) {
-                        console.log(`[setMessages] Preserving newer state for Msg ID ${newMsg.id}: History(${newMsg.unreadCount}) -> Kept(${existingMsg.unreadCount})`);
                         return { ...newMsg, unreadCount: existingMsg.unreadCount };
                     }
                 }
                 return newMsg;
             });
-            console.log(`[setMessages] Updated ${mergedMessages.length} messages.`);
             return { chat: { ...state.chat, messages: mergedMessages } };
         }),
         addMessage: (message) => set((state) => {
@@ -71,8 +68,6 @@ export const createChatSlice = (set, get) => ({
             const numericFromId = Number(fromId);
             const numericToId = Number(toId);
 
-            console.log(`[updateReadStatus] Range: ${numericFromId} ~ ${numericToId}`);
-
             return {
                 chat: {
                     ...state.chat,
@@ -80,7 +75,6 @@ export const createChatSlice = (set, get) => ({
                         const numericMsgId = Number(msg.id);
                         // fromId < msg.id <= toId 범위에 있는 메시지만 카운트 감소
                         if (msg.unreadCount > 0 && numericMsgId > numericFromId && numericMsgId <= numericToId) {
-                            console.log(`[updateReadStatus] Decrementing: ID=${numericMsgId}, Current=${msg.unreadCount}`);
                             return { ...msg, unreadCount: Math.max(0, msg.unreadCount - 1) };
                         }
                         return msg;
@@ -133,7 +127,6 @@ export const createChatSlice = (set, get) => ({
 
             let updatedRooms;
             if (!roomExists) {
-                console.log(`[updateChatList] New room detected: ${message.roomId}. Adding to state...`);
                 get().chat.fetchChatRooms();
 
                 const newRoom = {
