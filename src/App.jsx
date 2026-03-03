@@ -171,7 +171,6 @@ function App() {
                         path="teammanagement"
                         element={<AdminTeamManagement />}
                       />
-                      {console.log("isAdminMode:", isAdminMode)}
                       <Route path="monitoring" element={<Monitoring />} />
                       <Route
                         path="gifticons"

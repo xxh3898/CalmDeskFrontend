@@ -324,6 +324,7 @@ const Header = () => {
       label: "상세분석",
       icon: Activity,
       path: "/app/monitoring",
+      externalUrl: "https://calmdesk.site/app/monitoring",
     },
     {
       id: NavItemType.ADMIN_APPLICATIONS,
@@ -367,7 +368,13 @@ const Header = () => {
               {currentNavItems.map((item) => (
                 <S.NavButton
                   key={item.id}
-                  onClick={() => navigate(item.path)}
+                  onClick={() => {
+                    if (item.externalUrl) {
+                      window.open(item.externalUrl, "_blank");
+                    } else {
+                      navigate(item.path);
+                    }
+                  }}
                   $isActive={activeTab === item.id}
                   $isAdminMode={isAdminMode}
                 >
